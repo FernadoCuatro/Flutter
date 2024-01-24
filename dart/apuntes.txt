@@ -1,0 +1,28 @@
+// holamundo
+void main() {
+  // void != null
+  print('Hola mundo');
+}
+
+// tipos de datos - Numeros y String
+void main() {
+  // variables
+  
+  // string 
+  String nombre = 'Fernando';
+  final String apellido = 'Stark'; // es como crear una constante 
+  const apellido2 = 'Parker'; // significa que su valor nunca cambiará en tiempo de compilación 
+  
+  nombre = 'Peter';
+  // esto tambien se conoce como un template string
+  print('$nombre $apellido');
+  
+  // numeros
+  int empleados = 10; // sin decimales 
+  double salario = 1233.34; // ya te la sabes
+   
+  print(empleados);
+  print(salario); 
+}
+
+
