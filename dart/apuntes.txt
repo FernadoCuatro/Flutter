@@ -25,4 +25,25 @@ void main() {
   print(salario); 
 }
 
+// valores bool y condiciones
+void main() {
+  // boleah, true, false o null
+  bool isActive = true;
+  // bool? isActive = true; para decirle que active puede tener valores nulos
+  
+  // if(isActive == null) para validar un valor nulo
+  if(isActive) {
+    print('Está activo');
+  } else {
+    print('off');
+  }
+  
+}
+
+
+
+
+
+
+
 
