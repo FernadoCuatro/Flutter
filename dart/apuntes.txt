@@ -40,6 +40,107 @@ void main() {
   
 }
 
+// el tipo de dato lista 
+void main() {
+  // tipo de datos lista
+  // basicamente es un arreglo
+  // con el <int> se le especifica el tipo de dato que esta interno
+  List<int> numeros = [1,2,3,4,5,6,7,8,9,10];
+  // métodos - funciones para agregar a los datos
+  numeros.add(11);
+  // numeros.add('12');
+  
+  print(numeros);
+  
+  // las listas son en base a Cero, es decir empiezan desde cero
+  print(numeros[0]);
+  
+  // dynamic es un tipo especial de dato aguanta con todo
+  // hay que tratar que los tipos de datos estén bien definidos
+  
+  // métodos estáticos interesanes
+  final masNumeros = List.generate(100, (int index) => index);
+  print(masNumeros);
+}
+
+// tipo de dato Map
+void main() {
+  // tipo de datos mapas
+  // en otros lengujes se conocen como objetos literales, diccionarios
+  
+  // definimos objeto
+  // Map persona = {
+  //   'nombre': 'Fernando',
+  //   'edad': 22,
+  //   'soltero': false,
+  //   true: false,
+  //   1: 100,
+  //   2: 500
+  // };
+
+  // accedemos
+  // print( persona['nombre'] );
+  // print( persona[true] );
+  // print( persona[2] );
+  
+  // podemos definir como luce este mapa
+  // en el primer string obligamos a que todas las llaves sean de tipos String
+  // y con el segundo estamos diciendo que los valores también tienen que ser tipo string
+  // dynamic es el pivote para que tome cualquier tipo de dato
+  Map<String, dynamic> persona = {
+    'nombre': 'Fernando',
+    'edad': '22',
+    'soltero': false
+  };
+  
+  // adding element new
+  persona.addAll({ 'Segundo nombre': 'Juan' });
+  
+  print( persona );
+  
+}
+
+// manejando las funciones
+void main() {
+  // función es el bloque que podemos reutilizar 
+  // saludar( 'Fernando', 'No se te hace mucho texto?' );
+  
+  // puedo decirle que tipo de dato es el que estoy mandndo
+  // no precisamente en el orden que los recibe la función 
+  saludar2(mensaje: 'Mucho texto', nombre: 'Fernando');
+}
+
+// la función siemore es bueno especificar si regresa algo o no
+// la vieja confiable es void
+
+// nombre es un parámetro posicional o obligatorio
+
+// para mandar elementos opciones podemos usar las [] para decirle que si no manda nada el valor es el que esta por defecto
+void saludar(String nombre, [String mensaje = 'Todo bien?']) {
+  print('Hola, como andas $nombre, $mensaje');
+}
+
+// si no quiero obligar el orden de los argumentos
+// puedo espedificar con los {}
+// con el simbolo ? le estamos diciendo que puede ser opcional
+void saludar2({ String nombre = 'Usuario', String? mensaje }) {
+  print('Estoy aquí otra vez, $nombre y ya te la sabes: $mensaje');
+}
+
+// le podemos decir que para utilizar nuestra funcion los argumentos
+// para los parámetros sean obligatorios cuando agregajos la palabra: required
+// void saludar2({ 
+//   required String nombre, 
+//   required String mensaje 
+//   }) {
+//   print('Estoy aquí otra vez, $nombre y ya te la sabes: $mensaje');
+// }
+
+
+
+
+
+
 
 
 
