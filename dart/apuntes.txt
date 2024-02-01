@@ -261,6 +261,54 @@ class Cuadrado {
 }
 
 
+// clases abstractas
+void main() {
+  // una clase abstracta es una clase que no se puede instanciar
+  // final perro = Animal(); 
+  // esto no se puede hacer
+  
+  // la clase abstracta sirve para que otras clases lo implementan
+  final perro = Perro();
+  sonidoAnimal( perro );
+  
+  final gato = Gato();
+  sonidoAnimal( gato );
+}
+
+// función random
+void sonidoAnimal(animal) {
+  animal.emitirSonido();
+}
+
+
+// UpperCamelCase siempre cada palabra va Capitalizada es decir en Mayus
+abstract class Animal {
+  int? patas; // es opcional
+  
+  Animal();
+  void emitirSonido();
+}
+
+class Perro implements Animal {
+  // hay que implementar todo de la clase animal
+  int? patas;
+  
+  void emitirSonido() {
+    print('Guuuuuuaooo');
+  }
+  
+  // el método corto y es igua de valido
+  // void emitirSonido() => print('Guuuuuuaooo');
+}
+
+class Gato implements Animal {
+  int? patas;
+  int? cola;
+  
+  void emitirSonido() => print('Miauuu 🐱');
+}
+
+
 
 
 
