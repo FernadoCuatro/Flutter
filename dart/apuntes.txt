@@ -136,12 +136,129 @@ void saludar2({ String nombre = 'Usuario', String? mensaje }) {
 //   print('Estoy aquí otra vez, $nombre y ya te la sabes: $mensaje');
 // }
 
+void main() {
+  // creamos el objeto con la instancia de la clase
+  final Heroe wolverine = new Heroe('Logan', 'Regeneracion');
+  
+  // wolverine.nombre = 'Logan';
+  // wolverine.poder = 'Regeneracion';
+  
+  print( wolverine );
+  // print( wolverine.nombre );
+}
 
+// creamos una clase
+class Heroe {
+  // puede contener (lo comun):
+  // metodos
+  // propiedades
+  // constructor
+  
+  // propiedad
+  // ? == puede ser nulo
+  String nombre;
+  String poder;
+  
+  // vamos al constructor
+  // Heroe( String nombre, String poder ) {
+  //   this.nombre = nombre;
+  //   this.poder = poder;
+  // }
+  
+  // la forma corta es:
+  Heroe( this.nombre, this.poder );
+  // también podemos mandar argumentos por nombre con {}
+  // y decirle que siempre nos los tiene que mandar
+  // Heroe({
+  //  required this.nombre, 
+  //  required this.poder 
+  // });
+  
+  // para cuando escribimos el objeto queremos que deje de decir Instancia de
+  // podemos sobreescribir
+  @override
+  String toString() {
+    // para transformar a string una instancia de mi clase 
+    return 'Heroe: ${ this.nombre }, con el poder: ${ this.poder }';
+  }
+  
+}
 
+// cosntructores con nombre
+void main() {
+  final rawJson = {
+    'nombre': 'Stark',
+    'poder': 'Dinero'
+  };
+  
+  final ironman = Heroe.fromJSON( rawJson );
+  print(ironman);
+  
+  // creamos el objeto con la instancia de la clase
+  // final Heroe wolverine = Heroe(nombre:'Logan', poder:'Regeneracion');
+  // print( wolverine );
+}
 
+// creamos una clase
+class Heroe {
+  String nombre;
+  String poder;
+   
+  Heroe({
+   required this.nombre, 
+   required this.poder 
+  });
+  
+  // cosntructores por nombre
+  Heroe.fromJSON(Map<String, String> json):
+    this.nombre = json['nombre'] ?? 'No hay nombre',
+    this.poder = json['poder'] ?? 'No tiene poder';
 
+  
+  @override
+  String toString() {
+    // para transformar a string una instancia de mi clase 
+    return 'Heroe: ${ this.nombre }, con el poder: ${ this.poder }';
+  }
+}
 
+// getter y setter
+// importaciones
+import 'dart:math' as math;
 
+void main() {
+  final cuadrado = Cuadrado(5);
+ 
+  cuadrado.area = 10;
+  
+  print('Área: ${cuadrado.calculaArea()}');
+  print('Lado: ${cuadrado.lado}');
+  print('área get: ${cuadrado.area}');
+  
+  
+}
+
+class Cuadrado {
+  double lado = 0; // lado * lado
+  
+  // getter es un método pero se llama como una propiedad
+  // un método lleva parentesis un getter no
+  double get area {
+    return this.lado * this.lado;
+  }
+  
+  // set para establecer un valor
+  void set area(double valor) {
+    this.lado = math.sqrt(valor);
+  } 
+  
+  Cuadrado(double lado):
+  this.lado = lado;
+  
+  double calculaArea() {
+    return this.lado * this.lado;
+  }
+}
 
 
 
