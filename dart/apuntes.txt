@@ -434,3 +434,34 @@ void main() {
   chinbolos.nadar();
   chinbolos.volar();
 }
+
+
+// Futures
+void main() {
+  // que son lo futures?
+  // se conocen como un Task
+  // si estamos en Js es una promesa
+  // es una tarea asíncrona, es una tarea que se ejecuta a diferente tiempo
+  
+  
+  // el Future funciona de esta forma
+  // queremos hacer una peticion
+  print('Antes de la peticion');
+  
+  // ahora usamos el future
+  httpGet('https://api')
+    .then( (data) {
+      print( data.toUpperCase() );
+    });
+  
+  print('Fin del programa');
+  
+}
+
+Future<String> httpGet( String url ) {
+  // delayed metodo estatico para una tarea en x cantidad de tiempo
+  // es una clase, se puede usar new Duration, new es opcional
+  return Future.delayed( Duration( seconds: 3 ), () {
+    return 'Hola mundo - 3 segundos';
+  });
+}
