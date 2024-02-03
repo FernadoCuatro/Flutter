@@ -308,9 +308,3 @@ class Gato implements Animal {
   void emitirSonido() => print('Miauuu 🐱');
 }
 
-
-
-
-
-
-
