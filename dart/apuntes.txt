@@ -465,3 +465,50 @@ Future<String> httpGet( String url ) {
     return 'Hola mundo - 3 segundos';
   });
 }
+
+// Async Await
+void main() async {
+  // que son lo futures?
+  // se conocen como un Task
+  // si estamos en Js es una promesa
+  // es una tarea asíncrona, es una tarea que se ejecuta a diferente tiempo
+  
+  
+  // el Future funciona de esta forma
+  // queremos hacer una peticion
+  print('Antes de la peticion');
+  
+  // al ejecutarlo se va hasta lo ultimo
+  // pq se ejecuta al segundo plano
+  // y cuando se desucupa es que manda el texto
+  // getNombre('10').then( print );
+  
+  // y ahora modificamos que cuando termine el proceso que mande
+  // a ejecutar lo que queda de programa 
+  // el await solo se puee usar en una función asincrona
+  // así que vamos y convertimos el main con el async
+  final nombre = await getNombre('10');
+  print( nombre );
+  
+  // tambien lo podemos hacer con la función que sabemos que retorna en 3 segundos 
+  final data = await httpGet('https://api'); // es igual a la tarea asicroña que quiero hacer
+  print( data );
+  
+  print('Fin del programa');
+  
+}
+
+// cuando escribimos la palabra reservada async
+// significa que la función ahora retorna un Future
+Future<String> getNombre( String id ) async {
+  return '${id} - Fernando';
+}
+
+
+Future<String> httpGet( String url ) {
+  // delayed metodo estatico para una tarea en x cantidad de tiempo
+  // es una clase, se puede usar new Duration, new es opcional
+  return Future.delayed( Duration( seconds: 3 ), () {
+    return 'Hola mundo - 3 segundos';
+  });
+}
