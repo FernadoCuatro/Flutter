@@ -353,5 +353,84 @@ class Villano extends Personaje {
   Villano( String nombre ): super( nombre ); // el súper hace el llamado llamado al constructo de la clase de la que se extiende
 }
 
+// los mixins
+// clase abstracta de animal
+// no se agrega una propiedad pq todos animales lo tuviera
+// podría ser algo así como esta vivo o no xd
+abstract class Animal {} 
 
+// creamos los tres tipos de animales extendiendo de la dicha class
+abstract class Mamifero extends Animal {} 
+abstract class Ave extends Animal {} 
+abstract class Pez extends Animal {} 
 
+// ahora se vienen las caracteristicas especificas
+// que ciertos animales van a tener
+mixin Volador {
+  void volar() => print('Voy a volar');
+}
+
+mixin Caminador {
+  void caminar() => print('Corre corre que camino');
+}
+
+mixin Nadador {
+  void nadar() => print('Estoy nadando cual Aquaman');
+}
+
+// vamos con los animales, creamos sus caracteristicas
+// el mixins se puede identificar con la palabra with
+class Delfin extends Mamifero with Nadador { }
+class Murcielago extends Mamifero with Caminador, Volador { }
+class Gato extends Mamifero with Caminador { }
+
+class Paloma extends Ave with Caminador, Volador { }
+class Pato extends Ave with Caminador, Volador, Nadador { }
+
+class Tiburon extends Pez with Nadador { }
+class PezVolador extends Pez with Nadador, Volador { }
+
+void main() {
+  // los mixins es algo propio de dart 
+  // no tiene equivalente directo con un lenjuaje de programación 
+  
+  // creamos una instancia del delfin
+  final flipper = Delfin();
+  flipper.nadar();
+  
+  print('');
+  
+  final batman = Murcielago();
+  batman.caminar();
+  batman.volar();
+  
+  print('');
+ 
+  final gatoConBotas = Gato();
+  gatoConBotas.caminar();
+  
+  print('');
+  
+  final paloma = Paloma();
+  paloma.caminar();
+  paloma.volar();
+  
+  print('');
+  
+  final donald = Pato();
+  donald.caminar();
+  donald.volar();
+  donald.nadar();
+  
+  print('');
+  
+  // un ganador 🥇
+  final ferranTorres = Tiburon();
+  ferranTorres.nadar();
+  
+  print('');
+  
+  final chinbolos = PezVolador();
+  chinbolos.nadar();
+  chinbolos.volar();
+}
