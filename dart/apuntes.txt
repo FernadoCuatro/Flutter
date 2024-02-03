@@ -308,3 +308,50 @@ class Gato implements Animal {
   void emitirSonido() => print('Miauuu 🐱');
 }
 
+// el Extends 
+void main() {
+  // como de todos es sabido, una clase abstracta no se puede instanciar 
+  
+  // la clase estracta nos servira para extender de otras clases
+  final superman = Hero('Clark Kent');
+  print(superman);
+  
+  final luthor = Villano('Lex Luthor');
+  print(luthor.maldad);
+}
+
+abstract class Personaje {
+  String? poder; // opcional
+  String nombre; // obligatorio 
+  
+  // constructor 
+  Personaje( this.nombre );
+  
+  // sobreescribimos
+  String toString() {
+    return '${nombre} - ${poder}';
+  }
+}
+
+// esta clase extiende de la clase abstracta
+class Hero extends Personaje {
+  int valentia = 10;
+  
+  // constructor 
+  // en este constructor necesito recibir el argumento de nombre 
+  // de la clase anterior
+  Hero( String nombre ): super( nombre ); // el súper hace el llamado llamado al constructo de la clase de la que se extiende
+}
+
+// tambien extenderá de personaje
+class Villano extends Personaje {
+  int maldad = 5;
+  
+  // constructor 
+  // en este constructor necesito recibir el argumento de nombre 
+  // de la clase anterior
+  Villano( String nombre ): super( nombre ); // el súper hace el llamado llamado al constructo de la clase de la que se extiende
+}
+
+
+
