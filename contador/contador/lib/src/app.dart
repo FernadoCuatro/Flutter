@@ -1,6 +1,8 @@
 // contendra toda la logica
-
+// importamos
 import 'package:flutter/material.dart';
+
+import 'package:contador/src/pages/home_page.dart';
 
 // todos los windget son clases comunes y corrientes
 class MyApp extends StatelessWidget {
@@ -11,7 +13,7 @@ class MyApp extends StatelessWidget {
     // permite la configuracion global de la app
     return MaterialApp(
       home: Center(
-        child: Text('Hola mundo!'),
+        child: HomePage(),
       ), 
     );
   }
