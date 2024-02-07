@@ -1,8 +1,13 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 
 
 // una clase de toda la vida pero es un windget
 class HomePage extends StatelessWidget {
+
+  // estilo personalizado que haga el texto mas grande
+  final estiloTexto = TextStyle( fontSize: 30 );
 
   @override
   Widget build( BuildContext context ) {
@@ -14,7 +19,13 @@ class HomePage extends StatelessWidget {
         elevation: 10,
       ),
       body: Center(
-        child: Text('Hola mundo'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('Numero de clicks:', style: estiloTexto ),
+            Text('0', style: estiloTexto ),
+          ],
+        ),
       ),
     );
 
