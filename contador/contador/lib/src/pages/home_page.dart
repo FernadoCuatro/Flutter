@@ -9,6 +9,9 @@ class HomePage extends StatelessWidget {
   // estilo personalizado que haga el texto mas grande
   final estiloTexto = TextStyle( fontSize: 30 );
 
+  // la variable para contar
+  int conteo = 10;
+
   @override
   Widget build( BuildContext context ) {
     // Scaffold, basicamente es algo que cubre toda la pantalla que se puede establecer cosas como la cosa de arriba, un boton un menu, etc 
@@ -23,7 +26,7 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('Numero de clicks:', style: estiloTexto ),
-            Text('0', style: estiloTexto ),
+            Text( '$conteo' , style: estiloTexto ), // interpolacion de string con el $
           ],
         ),
       ),
@@ -35,7 +38,7 @@ class HomePage extends StatelessWidget {
         // si lo mandas el onPressed en null es como que el boton esta desabilitado
         onPressed: () { // () {} es una funcion anonima
           // print('Hola mundo'); para salida en consola
-
+          conteo++;
         } , 
 
         // tambien tenemos el hijo
