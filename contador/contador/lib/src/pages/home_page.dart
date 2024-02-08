@@ -27,6 +27,19 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+
+      // para agregar un boton en HD
+      floatingActionButton: FloatingActionButton(
+        // si lo mandas el onPressed en null es como que el boton esta desabilitado
+        onPressed: () {
+          // print('Hola mundo'); para salida en consola
+          
+        } , // () {} es una funcion anonima
+        // tambien tenemos el hijo
+        child: Icon( Icons.add ), // se puede mostrar un texto tranquilamente Text('+')
+      ),
+
+
     );
 
 
