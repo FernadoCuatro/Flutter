@@ -10,7 +10,7 @@ class HomePage extends StatelessWidget {
   final estiloTexto = TextStyle( fontSize: 30 );
 
   // la variable para contar
-  int conteo = 10;
+  final conteo = 10;
 
   @override
   Widget build( BuildContext context ) {
@@ -45,9 +45,7 @@ class HomePage extends StatelessWidget {
         child: Icon( Icons.add ), // se puede mostrar un texto tranquilamente Text('+')
       ),
 
-
     );
-
 
   }
 
