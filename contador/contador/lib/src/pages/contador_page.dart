@@ -67,9 +67,7 @@ class _contadorPageState extends State<contadorPage> {
       ),
 
     );
-
   }
-
 }
 
  
