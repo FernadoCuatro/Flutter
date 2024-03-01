@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
         // si lo mandas el onPressed en null es como que el boton esta desabilitado
         onPressed: () { // () {} es una funcion anonima
           // print('Hola mundo'); para salida en consola
-          conteo++;
+          // conteo++;
         } , 
 
         // tambien tenemos el hijo
