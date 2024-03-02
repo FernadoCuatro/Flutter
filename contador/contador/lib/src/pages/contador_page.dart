@@ -13,7 +13,6 @@ class contadorPage extends StatefulWidget {
   }
   // como lo anterior es una linea, tambien podemos decirle que sea una funcion de flecha
   // createState() => _contadorPageState();
-
 }
 
 // tambien el estado
