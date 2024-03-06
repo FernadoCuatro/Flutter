@@ -19,7 +19,6 @@ class MyApp extends StatelessWidget {
         // child: HomePage(),
         child: contadorPage(),
       ), 
-    
     );
   }
 }
