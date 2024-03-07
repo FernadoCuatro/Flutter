@@ -40,7 +40,7 @@ class _contadorPageState extends State<contadorPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Numero de clicks:', style: _estiloTexto ),
+            Text('Numero de tabs:', style: _estiloTexto ),
             Text( '$_conteo' , style: _estiloTexto ), // interpolacion de string con el $
           ],
         ),
@@ -50,6 +50,9 @@ class _contadorPageState extends State<contadorPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       // para agregar un boton en HD
       floatingActionButton: FloatingActionButton(
+        // tambien tenemos el hijo
+        child: Icon( Icons.add ), // se puede mostrar un texto tranquilamente Text('+')
+
         // si lo mandas el onPressed en null es como que el boton esta desabilitado
         onPressed: () { // () {} es una funcion anonima
           // print('Hola mundo'); para salida en consola
@@ -60,9 +63,10 @@ class _contadorPageState extends State<contadorPage> {
           setState(() { });
         } , 
 
-        // tambien tenemos el hijo
-        child: Icon( Icons.add ), // se puede mostrar un texto tranquilamente Text('+')
+
       ),
+
+
     );
   }
 }

@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     // permite la configuracion global de la app
     return MaterialApp(
       debugShowCheckedModeBanner: false, // para quitar el banner que dice debug
+      
       home: Center(
         // child: HomePage(),
         child: contadorPage(),
