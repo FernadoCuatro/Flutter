@@ -8,5 +8,4 @@ import 'src/app.dart';
 void main() {
     // la que se usa siempre y espera un Windget
     runApp( MyApp() );
-} 
-
+}
