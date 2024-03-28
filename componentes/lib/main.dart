@@ -14,16 +14,7 @@ class MyApp extends StatelessWidget {
 	  // Quitamos el molesto debug que aparece arriba
 	  debugShowCheckedModeBanner: false,
 
-	  home: Scaffold(
-		appBar: AppBar(
-		  title: const Text('Componentes'),
-		),
-		// Asi estaba por defectp pero vamos usar el home_temp.dart para que muestre la data
-		// body: const Center(
-		//   child: Text('Hello World'),
-		// ),
-		body: HomePageTemp(),
-	  ),
+	  home: HomePageTemp(),
 	);
   }
 }
