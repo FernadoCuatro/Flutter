@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_new, use_key_in_widget_constructors
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 
@@ -24,7 +24,8 @@ class HomePageTemp extends StatelessWidget {
 			),
 
 			body: ListView(
-				children: _crearItems()
+				// children: _crearItems()
+				children: _crearItemsCorto()
 			),
 
 		);
@@ -33,6 +34,7 @@ class HomePageTemp extends StatelessWidget {
 	// Primera forma
   // Creamos un método nuevo que devuelva la lista de Widget
   // Ya sabemos que el _ es porque es privada
+  // ignore: unused_element
   List<Widget> _crearItems() {
 		// Una lista dinámica, no estamos definiendo el largo
 
@@ -56,7 +58,28 @@ class HomePageTemp extends StatelessWidget {
 	// Segunda forma
 	List<Widget> _crearItemsCorto() {
 
-		
+		return opciones.map( ( item ) {
+			return Column(
+			  children: [
+			    ListTile(
+						// Al inicio
+						leading: Icon( Icons.home, size: 35, color: Colors.black12 ),
+			    	// ignore: prefer_interpolation_to_compose_strings
+			    	title: Text( item + ' !' ),
+						subtitle: Text( 'Cualquier cosa desde el subtext' ),
+						// Al final
+						trailing: Icon( Icons.arrow_forward_ios, size: 35, color: Colors.red[200] ),
+
+						// Con esto vamos hacer una acción al hacer tap
+						onTap: (){},
+
+			    ),
+
+					const Divider(height: 1)
+			  ],
+			);
+
+		}).toList();
 
 	}
 
