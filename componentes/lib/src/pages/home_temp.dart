@@ -49,7 +49,6 @@ class HomePageTemp extends StatelessWidget {
 			// Operador en cascada
 			lista..add( tempWidget )
 						..add( const Divider(height: 1) );
-
 		}
 
     return lista;
