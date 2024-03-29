@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:componentes/src/providers/menu_provider.dart';
+import 'package:componentes/src/utils/icono_string_util.dart';
 
 // stless
 // Con eso creamos nuestro StatelessWidget
@@ -63,7 +64,7 @@ class HomePage extends StatelessWidget {
     // ignore: avoid_function_literals_in_foreach_calls
     data.forEach( (opcion) {
       final widgetTemp = ListTile(
-        leading: Icon( Icons.access_alarms, color: Colors.blue, size: 35 ),
+        leading: getIcon( opcion['icon'] ),
         title: Text( opcion['texto'] ),
         trailing: Icon( Icons.arrow_forward_ios_rounded, color: Colors.blue, size: 35 ),
         onTap: () {
