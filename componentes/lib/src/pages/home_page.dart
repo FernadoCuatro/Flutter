@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, avoid_print, prefer_const_literals_to_create_immutables
 
+import 'package:componentes/src/pages/alert_page.dart';
 import 'package:flutter/material.dart';
 import 'package:componentes/src/providers/menu_provider.dart';
 import 'package:componentes/src/utils/icono_string_util.dart';
@@ -48,7 +49,7 @@ class HomePage extends StatelessWidget {
       builder: ( BuildContext context, AsyncSnapshot< List<dynamic> > snapshot ) {
 
         return ListView (
-          children: _listarItems( snapshot.data ),
+          children: _listarItems( snapshot.data, context ),
         );
         
       },
@@ -57,7 +58,7 @@ class HomePage extends StatelessWidget {
   }
   
   // Necesitamos que retorne una lista de Widget
-  List<Widget> _listarItems( data ) { // List<dynamic> data 
+  List<Widget> _listarItems( data, context ) { // List<dynamic> data 
     // dibujamos la lista con los datos que estamos trayendo en la data
     final List<Widget> opciones = [];
 
@@ -68,7 +69,14 @@ class HomePage extends StatelessWidget {
         title: Text( opcion['texto'] ),
         trailing: Icon( Icons.arrow_forward_ios_rounded, color: Colors.blue, size: 35 ),
         onTap: () {
+          // La forma tradicional
+          // Requiere un context y un route
+          // context = es la que sabe que pagina esta encima sabe la informacion donde esta y para donde ira
 
+          // la route, la ruta navegacion normal
+          final route = MaterialPageRoute( builder: (context ) { return AlertPage(); } );
+          
+          Navigator.push( context, route);
         },
       );
 
