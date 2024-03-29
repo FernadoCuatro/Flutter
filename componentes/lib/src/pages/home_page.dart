@@ -74,9 +74,13 @@ class HomePage extends StatelessWidget {
           // context = es la que sabe que pagina esta encima sabe la informacion donde esta y para donde ira
 
           // la route, la ruta navegacion normal
-          final route = MaterialPageRoute( builder: (context ) { return AlertPage(); } );
-          
-          Navigator.push( context, route);
+          // final route = MaterialPageRoute( builder: (context ) { return AlertPage(); } );
+          // Navigator.push( context, route);
+
+          // Ahora si, la navegacion con nombre
+          Navigator.pushNamed( context, opcion['ruta'] );
+
+
         },
       );
 
