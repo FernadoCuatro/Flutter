@@ -1,6 +1,7 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:componentes/src/providers/menu_provider.dart';
 
 // stless
 // Con eso creamos nuestro StatelessWidget
@@ -18,6 +19,9 @@ class HomePage extends StatelessWidget {
   }
   
   Widget _lista() {
+    // Llamamos la clase
+    // print( menuProvider.opciones );
+
     return ListView (
       children: _listarItems(),
     );
