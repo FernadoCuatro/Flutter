@@ -16,14 +16,36 @@ class CardPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         children: [
           _cardTipo1(),
-
           // Dejemos espacio de esta y la otra tarjeta
-          SizedBox(height: 20),
+          SizedBox(height: 15),
 
-          _cardTipo2()
+          _cardTipo2(),
+          SizedBox(height: 15),
 
+          _cardTipo1(),
+          SizedBox(height: 15),
+          _cardTipo2(),
+          SizedBox(height: 15),
 
+          _cardTipo1(),
+          SizedBox(height: 15),
+          _cardTipo2(),
+          SizedBox(height: 15),
 
+          _cardTipo1(),
+          SizedBox(height: 15),
+          _cardTipo2(),
+          SizedBox(height: 15),
+
+          _cardTipo1(),
+          SizedBox(height: 15),
+          _cardTipo2(),
+          SizedBox(height: 15),
+
+          _cardTipo1(),
+          SizedBox(height: 15),
+          _cardTipo2(),
+          SizedBox(height: 15),
         ],
       ),
 
@@ -31,8 +53,9 @@ class CardPage extends StatelessWidget {
   }
   
   Widget _cardTipo1() {
-    
     return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(20) ),
       child: Column(
         children: <Widget>[
           ListTile(
@@ -64,8 +87,11 @@ class CardPage extends StatelessWidget {
   }
   
   Widget _cardTipo2() {
-
-    return Card(
+    // return Card
+    // final card = Card(
+    final card = Container(
+      // clipBehavior: Clip.antiAlias,
+      color: Colors.white,
       child: Column(
         children: [
           FadeInImage(
@@ -88,6 +114,25 @@ class CardPage extends StatelessWidget {
         ],
       ),
     );
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 5,
+            spreadRadius: 1,
+            offset: Offset(0,0),
+          )
+        ]
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(30),
+        child: card,
+      ),
+    );
+
   }
 
 

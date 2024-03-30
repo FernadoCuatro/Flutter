@@ -79,8 +79,6 @@ class HomePage extends StatelessWidget {
 
           // Ahora si, la navegacion con nombre
           Navigator.pushNamed( context, opcion['ruta'] );
-
-
         },
       );
 
