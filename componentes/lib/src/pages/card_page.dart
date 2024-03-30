@@ -15,7 +15,15 @@ class CardPage extends StatelessWidget {
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         children: [
-          _cardTipo1()
+          _cardTipo1(),
+
+          // Dejemos espacio de esta y la otra tarjeta
+          SizedBox(height: 20),
+
+          _cardTipo2()
+
+
+
         ],
       ),
 
@@ -54,4 +62,34 @@ class CardPage extends StatelessWidget {
     );
   
   }
+  
+  Widget _cardTipo2() {
+
+    return Card(
+      child: Column(
+        children: [
+          FadeInImage(
+            fadeInDuration: Duration( milliseconds: 200 ),
+            height: 400,
+            fit: BoxFit.cover,
+            placeholder: AssetImage('assets/preloader.gif'),
+            image: NetworkImage('https://idsb.tmgrup.com.tr/ly/uploads/images/2020/03/20/26192.jpg'),
+          ),
+
+          // La version normal
+          // Image(
+          //   image: NetworkImage('https://idsb.tmgrup.com.tr/ly/uploads/images/2020/03/20/26192.jpg'),
+          // ),
+          
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Text('Formula 1')
+          )
+        ],
+      ),
+    );
+  }
+
+
+
 }
