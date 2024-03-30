@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 
@@ -8,14 +8,16 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  
   String _nombre = "";
   String _email  = "";
   String _pw     = "";
   String _fecha  = "";
+  String _opcionSeleccionada = "Volar";
+
+  final List< String > _poderes = ['Volar', 'Rayos X', 'Super Aliento', 'Super Fuerza'];
 
   // Propiedad para ponerle la fecha seleccionada a la fecha de nacimineto 
-  TextEditingController _inputFieldDateController = TextEditingController(); 
+  final TextEditingController _inputFieldDateController = TextEditingController(); 
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,9 @@ class _InputPageState extends State<InputPage> {
           SizedBox(height: 50),
 
           _crearFecha( context ),
+          SizedBox(height: 50),
+
+          _crearDropDown(),
           SizedBox(height: 50),
 
           _crearPersona(),
@@ -82,6 +87,7 @@ class _InputPageState extends State<InputPage> {
           Text('Pass: $_pw'),
         ],
       ),
+      trailing: Text(_opcionSeleccionada),
     );
   }
   
@@ -162,5 +168,35 @@ class _InputPageState extends State<InputPage> {
       }); 
      }
   }
+  
+  List< DropdownMenuItem<String> > getOpcionesDropDown() {
+    List<DropdownMenuItem<String>> lista = [];
 
+    for (var poder in _poderes) {
+      lista.add( DropdownMenuItem(
+        value: poder,
+        child: Text(poder),
+      ));
+    } 
+
+    return lista;
+  }
+  Widget _crearDropDown() {
+    return Row(
+      children: [
+        Icon( Icons.select_all_rounded ),
+        SizedBox( width: 30 ),
+        DropdownButton(
+          value: _opcionSeleccionada,
+          items: getOpcionesDropDown(),
+          onChanged: ( opcion ) { 
+            // print( opcion );
+            setState(() {
+              _opcionSeleccionada = opcion!;
+            });
+          } ,
+        )
+      ],
+    );
+  }
 }
