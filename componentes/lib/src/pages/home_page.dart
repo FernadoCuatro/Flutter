@@ -82,8 +82,8 @@ class HomePage extends StatelessWidget {
         },
       );
 
-      opciones..add(widgetTemp)
-              ..add( Divider() );
+      opciones.add(widgetTemp);
+              // ..add( Divider() );
     });
 
     return opciones;
