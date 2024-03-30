@@ -12,6 +12,10 @@ class _InputPageState extends State<InputPage> {
   String _nombre = "";
   String _email  = "";
   String _pw     = "";
+  String _fecha  = "";
+
+  // Propiedad para ponerle la fecha seleccionada a la fecha de nacimineto 
+  TextEditingController _inputFieldDateController = TextEditingController(); 
 
   @override
   Widget build(BuildContext context) {
@@ -24,19 +28,18 @@ class _InputPageState extends State<InputPage> {
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         children: [
           _crearInput(),
-
           SizedBox(height: 50),
 
           _crearEmail(),
-
           SizedBox(height: 50),
 
           _crearPw(),
+          SizedBox(height: 50),
 
+          _crearFecha( context ),
           SizedBox(height: 50),
 
           _crearPersona(),
-
         ],
       ),
     );
@@ -117,4 +120,45 @@ class _InputPageState extends State<InputPage> {
       },
     );
   }
+  
+  Widget _crearFecha( BuildContext context ) {
+    return TextField(
+      enableInteractiveSelection: false,
+      controller: _inputFieldDateController,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10)
+        ),
+        hintText: 'Fecha de nacimiento',
+        labelText: 'Fecha de nacimiento',
+        suffixIcon: Icon( Icons.calendar_month ),
+        icon: Icon( Icons.calendar_today )
+      ),
+      onTap: () {
+        // Le quitamos el focus al elemento del input
+        FocusScope.of( context ).requestFocus( FocusNode() ); 
+
+        _selectDate( context );
+      },
+    );
+  }
+  
+  void _selectDate( BuildContext context ) async {
+    // Para almacenar fecha
+    DateTime? picked = await  showDatePicker( 
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2018),
+      lastDate: DateTime(2025)
+     );
+     
+     if (picked != null) {
+      setState(() {
+        _fecha = picked.toString();
+
+        _inputFieldDateController.text = _fecha;
+      }); 
+     }
+  }
+
 }
