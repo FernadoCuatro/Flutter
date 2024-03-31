@@ -25,7 +25,11 @@
             "ruta" : "inputs",
             "icon" : "input",
             "texto": "Inputs"
+        },
+        {
+            "ruta" : "list",
+            "icon" : "tune",
+            "texto": "Sliders"
         }
-
     ]
 }
