@@ -51,10 +51,12 @@ class _SliderPageState extends State<SliderPage> {
   }
   
   Widget _crearImagen() {
+
     return Image(
       image: NetworkImage('https://d3nv2arudvw7ln.cloudfront.net/staticfolder/Tyre/resources/img/red-parentesi.png'),
       width: _valorSlider,
       fit: BoxFit.cover,
     );
+    
   }
 }
