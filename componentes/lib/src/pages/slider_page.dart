@@ -9,6 +9,7 @@ class SliderPage extends StatefulWidget {
 
 class _SliderPageState extends State<SliderPage> {
   double _valorSlider = 100;
+  bool  _bloquearCheck = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,11 @@ class _SliderPageState extends State<SliderPage> {
         child: Column(
           children: [
             _crearSlaider(),
+            _crearCheckBox(),
+            _crearSwitch(),
             SizedBox(height: 50),
+
+            
             _crearImagen(),
           ],
         ),
@@ -36,10 +41,11 @@ class _SliderPageState extends State<SliderPage> {
       activeColor: Colors.indigoAccent,
       label: 'Tamaño de la imagen',
       // divisions: 20,
-      min: 10,
-      max: 400,
+      min: 100,
+      max: 500,
       value: _valorSlider,
-      onChanged: ( valor ) {
+      // Para validar el true o el falso del bloquearCheck para el Slider
+      onChanged: ( _bloquearCheck ) ? null : ( valor ) {
       
         setState(() {
           _valorSlider =  valor;  
@@ -59,4 +65,57 @@ class _SliderPageState extends State<SliderPage> {
     );
     
   }
+  
+  Widget _crearCheckBox() {
+    // Retorna un valor booleano
+    // return Checkbox(
+    //   value: _bloquearCheck,
+    //   onChanged: ( valor ) {
+      
+    //     setState(() {
+    //       _bloquearCheck = valor!;
+    //     });
+      
+    //   },
+    // );
+
+    return Container(
+      padding: EdgeInsets.only(left: 75, right: 75),
+      child: CheckboxListTile(
+        contentPadding: EdgeInsets.zero, // Eliminar el relleno predeterminado
+        title: Padding(
+          padding: const EdgeInsets.only(left: 200.0), // Agregar relleno a la izquierda
+          child: Text('Bloquear Siliders'),
+        ),
+        value: _bloquearCheck,
+        onChanged: ( valor ) {
+        
+          setState(() {
+            _bloquearCheck = valor!;
+          });
+        
+        },
+      ),
+    );
+
+  }
+  
+  Widget _crearSwitch() {
+   return SwitchListTile(
+      contentPadding: EdgeInsets.zero, // Eliminar el relleno predeterminado
+      title: Padding(
+        padding: const EdgeInsets.only(left: 200.0), // Agregar relleno a la izquierda
+        child: Text('Bloquear Siliders'),
+      ),
+      value: _bloquearCheck,
+      onChanged: ( valor ) {
+      
+        setState(() {
+          _bloquearCheck = valor!;
+        });
+      
+      },
+    );
+  }
+
 }

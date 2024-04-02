@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
 import 'package:componentes/src/pages/alert_page.dart';
