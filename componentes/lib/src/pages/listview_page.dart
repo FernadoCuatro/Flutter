@@ -23,7 +23,7 @@ class _ListaPageState extends State<ListaPage> {
     // Listener al _scrollController
     _scrollController.addListener((){
       // print('scroll');
-      if(_scrollController.position.pixels == (_scrollController.position.maxScrollExtent - 10) ) {
+      if(_scrollController.position.pixels == (_scrollController.position.maxScrollExtent) ) {
         _agregar5();
       }
     });
@@ -53,12 +53,22 @@ class _ListaPageState extends State<ListaPage> {
       // Builder significa la forma en que se va a dibujar este elemento 
       itemBuilder: ( BuildContext context, int index ) {
         
-        // final imagen = _listaNumeros[index];
+        final imagen = _listaNumeros[index];
 
-        return FadeInImage(
-          placeholder: AssetImage('assets/preloader.gif'),
-          image: NetworkImage('https://miro.medium.com/v2/resize:fit:1200/1*mdEafnxcpRUuWi5aAOIteA.jpeg'),
+        return Container(
+          padding: EdgeInsets.only(bottom: 10),
+          child: Column(
+            children: [
+              FadeInImage(
+                placeholder: AssetImage('assets/preloader.gif'),
+                image: NetworkImage('https://miro.medium.com/v2/resize:fit:1200/1*mdEafnxcpRUuWi5aAOIteA.jpeg'),
+              ),
+              Text(imagen.toString()),
+            ],
+          ),
+
         );
+        
       },
     );
   }
