@@ -7,6 +7,7 @@ import 'package:componentes/src/pages/home_page.dart';
 import 'package:componentes/src/pages/card_page.dart';
 import 'package:componentes/src/pages/animated_container.dart';
 import 'package:componentes/src/pages/input_page.dart';
+import 'package:componentes/src/pages/listview_page.dart';
 
 Map< String, WidgetBuilder > getAplicationRoutes() {
   return < String, WidgetBuilder > {
@@ -16,6 +17,7 @@ Map< String, WidgetBuilder > getAplicationRoutes() {
     'card'             : ( BuildContext context) => CardPage(),
     'animatedContainer': ( BuildContext context) => AnimatedContainerPage(),
     'inputs'           : ( BuildContext context) => InputPage(),
-    'list'             : ( BuildContext context) => SliderPage(),
+    'slider'           : ( BuildContext context) => SliderPage(),
+    'list'             : ( BuildContext context) => ListaPage(),
   };
 }

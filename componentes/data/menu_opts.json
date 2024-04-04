@@ -27,9 +27,14 @@
             "texto": "Inputs"
         },
         {
-            "ruta" : "list",
+            "ruta" : "slider",
             "icon" : "tune",
-            "texto": "Sliders"
+            "texto": "Slider - Cheks"
+        },
+        {
+            "ruta" : "list",
+            "icon" : "list",
+            "texto": "Listas y Scroll"
         }
     ]
 }

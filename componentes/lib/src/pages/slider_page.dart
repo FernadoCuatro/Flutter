@@ -101,21 +101,24 @@ class _SliderPageState extends State<SliderPage> {
   }
   
   Widget _crearSwitch() {
-   return SwitchListTile(
-      contentPadding: EdgeInsets.zero, // Eliminar el relleno predeterminado
-      title: Padding(
-        padding: const EdgeInsets.only(left: 200.0), // Agregar relleno a la izquierda
-        child: Text('Bloquear Siliders'),
+   return Container(
+     padding: EdgeInsets.only(left: 75, right: 75),
+     child: SwitchListTile(
+        contentPadding: EdgeInsets.zero, // Eliminar el relleno predeterminado
+        title: Padding(
+          padding: const EdgeInsets.only(left: 200.0), // Agregar relleno a la izquierda
+          child: Text('Bloquear Siliders'),
+        ),
+        value: _bloquearCheck,
+        onChanged: ( valor ) {
+        
+          setState(() {
+            _bloquearCheck = valor;
+          });
+        
+        },
       ),
-      value: _bloquearCheck,
-      onChanged: ( valor ) {
-      
-        setState(() {
-          _bloquearCheck = valor!;
-        });
-      
-      },
-    );
+   );
   }
 
 }

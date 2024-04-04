@@ -22,11 +22,13 @@ class MyApp extends StatelessWidget {
       // Para que cambie a español aunque nodarisa
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate
+        GlobalWidgetsLocalizations.delegate,
+        // Agrega este delegado para Cupertino
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
-        const Locale( 'en','US' ),
-        const Locale( 'es','ES' ),
+        const Locale('en', 'US'), // Inglés
+        const Locale('es', 'ES'), // Español de España
       ],
 
       // home: HomePage(),
