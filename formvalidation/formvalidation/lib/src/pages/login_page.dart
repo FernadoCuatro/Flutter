@@ -65,10 +65,8 @@ class LoginPage extends StatelessWidget {
             ],
           ),
         ),
-
       ],
     );
-
   }
   
   Widget _loginForm( context ) {
@@ -113,8 +111,7 @@ class LoginPage extends StatelessWidget {
               ],
             ),
           ),
-
-
+          
           Text('¿Olvidaste la contraseña?'),
           SizedBox( height: 100 )
         ],
