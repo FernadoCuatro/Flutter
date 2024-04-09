@@ -117,7 +117,6 @@ class LoginPage extends StatelessWidget {
         ],
       ),
     );
-
   }
   
   Widget _crearEmail() {
@@ -163,7 +162,4 @@ class LoginPage extends StatelessWidget {
       child: Text('Ingresar'),
     );
   }
-
-
-
 }
