@@ -179,7 +179,7 @@ class LoginPage extends StatelessWidget {
 
   Widget _crearBoton() {
     return ElevatedButton(
-      onPressed: null,
+      onPressed: (){},
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white, 
         backgroundColor: Colors.deepPurple, 
