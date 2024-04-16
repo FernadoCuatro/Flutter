@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, prefer_null_aware_operators
 
 import 'package:flutter/material.dart';
 import 'package:formvalidation/src/bloc/login_bloc.dart';
@@ -142,7 +142,8 @@ class LoginPage extends StatelessWidget {
               hintText: 'ejemplo@correo.com',
               label: Text('Correo electrónico'),
               // Para poner cuantas letras tiene lo que esta escribiendo
-              counterText: snapshot.data
+              counterText: snapshot.data,
+              errorText: snapshot.error != null ? snapshot.error.toString() : null,
             ),
 
             // Podemos ponernos a escuhar
@@ -165,7 +166,8 @@ class LoginPage extends StatelessWidget {
             decoration: InputDecoration(
               icon: Icon( Icons.lock_outline, color: Colors.deepPurple ),
               label: Text('Contraseña'),
-              counterText: snapshot.data
+              // counterText: snapshot.data,
+              errorText: snapshot.error != null ? snapshot.error.toString() : null,
             ),
             // Vamos a estar de meques escuchando los cambios
             onChanged: (value) => bloc.changePassword( value ),
@@ -177,7 +179,7 @@ class LoginPage extends StatelessWidget {
 
   Widget _crearBoton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: null,
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white, 
         backgroundColor: Colors.deepPurple, 

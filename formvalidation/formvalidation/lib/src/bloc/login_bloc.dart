@@ -1,15 +1,17 @@
 // Creamos los string para controlar el correo y la contraseña
 import 'dart:async';
 
-class LoginBloc {
+import 'package:formvalidation/src/bloc/validators.dart';
+
+class LoginBloc with Validators {
   // Dos controladores, email y password y privados
   final _emailController    = StreamController<String>.broadcast();
   final _passwordController = StreamController<String>.broadcast();
 
   // Ocupamos una forma para poder escuchar el string
   // Recuperar los datos del Strem
-  Stream<String> get emailStrem    => _emailController.stream;
-  Stream<String> get passwordStrem => _passwordController.stream;
+  Stream<String> get emailStrem    => _emailController.stream.transform( validarEmail );
+  Stream<String> get passwordStrem => _passwordController.stream.transform( validarPassword );
   
   // Getter y Setter
   // Insertar valores al string
