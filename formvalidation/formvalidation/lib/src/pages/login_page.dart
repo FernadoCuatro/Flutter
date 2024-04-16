@@ -168,6 +168,7 @@ class LoginPage extends StatelessWidget {
               counterText: snapshot.data
             ),
             // Vamos a estar de meques escuchando los cambios
+            onChanged: (value) => bloc.changePassword( value ),
           ),
         );
       },

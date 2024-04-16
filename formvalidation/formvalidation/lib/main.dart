@@ -22,6 +22,10 @@ class MyApp extends StatelessWidget {
           'login': ( (context) => LoginPage() ),
           'home' : ( (context) => HomePage() ),
         },
+        // Vamos a poner un colorcito
+        theme: ThemeData(
+          primaryColor: Colors.black26
+        ),
       ),
     );
   }
