@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, prefer_null_aware_operators
 
 import 'package:flutter/material.dart';
-import 'package:formvalidation/src/bloc/login_bloc.dart';
+// import 'package:formvalidation/src/bloc/login_bloc.dart';
 import 'package:formvalidation/src/bloc/provider.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -115,7 +115,9 @@ class LoginPage extends StatelessWidget {
                 SizedBox( height: 30 ),
                 _crearPassword( bloc ),
                 SizedBox( height: 30 ),
-                _crearBoton()
+                // Se tiene que trabajar la validacion de que si ninguno de los dos inputs de arriba
+                // estan validados entonces se tiene que agregar la libreria Rxdart 
+                _crearBoton( bloc )
               ],
             ),
           ),
@@ -177,20 +179,27 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _crearBoton() {
-    return ElevatedButton(
-      onPressed: (){},
-      style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white, 
-        backgroundColor: Colors.deepPurple, 
-        padding: EdgeInsets.symmetric(horizontal: 150, vertical: 15),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: Colors.deepPurple),
-        ),
-        // elevation: 0,
-      ),
-      child: Text('Ingresar'),
+  Widget _crearBoton( bloc ) {
+    
+    return StreamBuilder(
+      stream: bloc.formValidStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return ElevatedButton(
+          onPressed: snapshot.hasData ? (){} : null,
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white, 
+            backgroundColor: Colors.deepPurple, 
+            padding: EdgeInsets.symmetric(horizontal: 150, vertical: 15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: BorderSide(color: Colors.deepPurple),
+            ),
+            // elevation: 0,
+          ),
+          child: Text('Ingresar'),
+        );    
+      },
     );
+
   }
 }
