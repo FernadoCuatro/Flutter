@@ -1,16 +1,31 @@
 // Aqui viene el inheritedWidget
-// ignore_for_file: use_key_in_widget_constructors
+// ignore_for_file: use_key_in_widget_constructors, unnecessary_null_comparison, prefer_conditional_assignment
 import 'package:flutter/material.dart';
 import 'package:formvalidation/src/bloc/login_bloc.dart';
-export 'package:formvalidation/src/bloc/login_bloc.dart';
 
 class Provider extends InheritedWidget {
-  // Propiedad
-  final loginBloc = LoginBloc();
+  // Propiedad statica
+  static Provider? _instancia;
 
+  // Creamos un factory para saber si necesito regresar una instancia de la clase
+  // o utilizar la que ya esta existente
+  factory Provider({ Key? key, required Widget child }) {
+    // Si es igual a null necesitamos crear una nueva instancia
+    if( _instancia == null ) {
+      // Creamos un constructor privado para prevenir que se pueda inicializar desde afuera
+      _instancia = Provider._internal(key: key, child: child);
+    }
+
+    return _instancia!;
+  }
+
+
+  // Creamos el constructor privado 
   // Constructor
-  Provider({ Key? key, required Widget child })
+  Provider._internal({ Key? key, required Widget child })
     : super(key: key, child: child);
+      
+  final loginBloc = LoginBloc();
 
   // Sobre escribimos
   // Mas o menos dice que al actualizarse debe notificar a sus hijos

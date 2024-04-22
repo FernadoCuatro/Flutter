@@ -21,9 +21,9 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Email: ${ bloc!.email } '),
+            Text('Email: ${ bloc?.email } '),
             Divider(),
-            Text('Password: ${ bloc.password }')
+            Text('Password: ${ bloc?.password }')
           ],
         ),
     );
