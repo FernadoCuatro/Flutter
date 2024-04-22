@@ -26,6 +26,11 @@ class LoginBloc with Validators {
   Function(String) get changeEmail    => _emailController.sink.add;
   Function(String) get changePassword => _passwordController.sink.add;
 
+  // Para obtener el ultimo valor emitido
+  // Obtener el ultimo valor ingresado a los streams
+  String get email    => _emailController.value;
+  String get password => _passwordController.value;
+
   // Cerramos cuando ya no necesitemos
   dispose() {
     _emailController.close();

@@ -185,7 +185,7 @@ class LoginPage extends StatelessWidget {
       stream: bloc.formValidStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return ElevatedButton(
-          onPressed: snapshot.hasData ? (){} : null,
+          onPressed: snapshot.hasData ? () => _login(bloc, context) : null,
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white, 
             backgroundColor: Colors.deepPurple, 
@@ -200,6 +200,17 @@ class LoginPage extends StatelessWidget {
         );    
       },
     );
+  }
 
+  // Creamos un metodo privado para obtener los valores
+  // no los del input si no los valores ya validados
+  _login( bloc , context) {
+    // necesitamos imprimir cual es el valor del email y el password
+    // print('Email:  ${ bloc.email }');
+    // print('Password: ${ bloc.password } ');
+
+    // Navegamos a la otra pagina
+    // Navigator.pushNamed( context, 'home'); // Con esto nos va a poner el boton de back, tenemos que usar:
+    Navigator.pushReplacementNamed( context, 'home');
   }
 }
