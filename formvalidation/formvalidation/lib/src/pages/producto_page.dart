@@ -39,9 +39,7 @@ class ProductoPage extends StatelessWidget {
           ),
         ),
       ),
-
     );
-  
   }
   
   Widget _crearNombre() {
