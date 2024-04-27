@@ -180,7 +180,6 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _crearBoton( bloc ) {
-    
     return StreamBuilder(
       stream: bloc.formValidStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
