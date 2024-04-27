@@ -1,5 +1,4 @@
 // ignore_for_file: unnecessary_new
-
 import 'dart:convert';
 
 ProductoModel productoModelFromJson(String str) => ProductoModel.fromJson(json.decode(str));
@@ -16,7 +15,7 @@ class ProductoModel {
 
   // Constructor
   ProductoModel({
-    this.id = '',
+    this.id,
     this.titulo     = '',
     this.valor      = 0.0,
     this.disponible = true,
