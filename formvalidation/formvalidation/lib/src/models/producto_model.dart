@@ -16,11 +16,11 @@ class ProductoModel {
 
   // Constructor
   ProductoModel({
-    required this.id,
+    this.id = '',
     this.titulo     = '',
     this.valor      = 0.0,
     this.disponible = true,
-    required this.fotoUrl,
+    this.fotoUrl = '',
   });
 
   factory ProductoModel.fromJson(Map<String, dynamic> json) => new ProductoModel(

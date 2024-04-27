@@ -1,6 +1,7 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_key_in_widget_constructors, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:formvalidation/src/models/producto_model.dart';
 import 'package:formvalidation/src/utils/utils.dart' as utils;
 
 class ProductoPage extends StatefulWidget {
@@ -12,6 +13,9 @@ class ProductoPage extends StatefulWidget {
 class _ProductoPageState extends State<ProductoPage> {
   // id para el formulario
   final formKey = GlobalKey<FormState>();
+
+  // Propiedad para el modelo
+  ProductoModel producto = ProductoModel();
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +48,7 @@ class _ProductoPageState extends State<ProductoPage> {
               children: [
                 _crearNombre(),
                 _crearPrecio(),
+                _crearDisponible(),
                 _crearBoton()
               ],
             ),
@@ -56,10 +61,14 @@ class _ProductoPageState extends State<ProductoPage> {
   Widget _crearNombre() {
     // El TextFormField trabaja directamente con un formulario
     return TextFormField(
+      // inicializamos el valor con la propiedad de la clase
+      initialValue: producto.titulo,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Nombre Producto'
       ),
+      // El onsave se ejecuta luego del validator
+      onSaved: ( value ) => producto.titulo = value!,
       // Vamos a crear las validaciones
       validator: (value) {
         if ( value!.length < 5 ) {
@@ -74,10 +83,13 @@ class _ProductoPageState extends State<ProductoPage> {
   Widget _crearPrecio() {
     // El TextFormField trabaja directamente con un formulario
     return TextFormField(
+      initialValue: producto.valor.toString(),
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(
         labelText: 'Precio'
       ),
+      // El onsave se ejecuta luego del validator
+      onSaved: ( value ) => producto.valor = double.parse(value!),
       // aqui la validacion es importante porque 
       // lleva un numero a fuerza
       validator: ( value ) {
@@ -109,6 +121,17 @@ class _ProductoPageState extends State<ProductoPage> {
       icon: Icon( Icons.save ),
     );
   }
+  
+  Widget _crearDisponible() {
+    return SwitchListTile(
+      value: producto.disponible,
+      title: Text('Disponible'),
+      // activeColor: Colors.black38,
+      onChanged: (value) => setState(() {
+        producto.disponible = value;
+      }),
+    );
+  }
 
   // Metodo para controlar el submit 
   void _submit() {
@@ -122,8 +145,15 @@ class _ProductoPageState extends State<ProductoPage> {
     if ( !formKey.currentState!.validate() ) return;
 
     // Todo el codigo de aqui abajo solamente sucedera cuandoe el formulario sea valido
-  
-  
+    // disparamos los onsave
+    // Esto dispara todos los text form field que esten en el formulario
+    formKey.currentState!.save();
+    
+    print( producto.titulo );
+    print( producto.valor );
+    print( producto.disponible );
 
   }
+  
+
 }
