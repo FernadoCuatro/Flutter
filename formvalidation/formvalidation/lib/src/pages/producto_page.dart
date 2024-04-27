@@ -154,6 +154,4 @@ class _ProductoPageState extends State<ProductoPage> {
     print( producto.disponible );
 
   }
-  
-
 }
