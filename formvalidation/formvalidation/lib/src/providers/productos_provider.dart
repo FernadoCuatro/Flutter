@@ -83,11 +83,9 @@ class ProductosProvider {
     final url = '$_url/productos/$id.json';
 
     // Cargamos la peticion
-    final resp = await http.delete(Uri.parse(url));
+    final resp = await http.delete( Uri.parse(url) );
 
     // Manejamos la respuesta
     return 1;
   }
-
-
 }
