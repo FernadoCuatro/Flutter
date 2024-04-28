@@ -23,7 +23,23 @@ class ProductosProvider {
 
     // Manejamos la respuesta
     final decodedData = json.decode( resp.body );
-    print( decodedData );
+    // print( decodedData );
+
+    return true;
+  }
+
+  // Editamos un producto
+  Future<bool> editarProducto( ProductoModel producto ) async {
+    // Necesitamos apuntar al nodo de productos
+    final url = '$_url/productos/${ producto.id }.json';
+
+    // Peticion HTTP para hacer un posteo de informacion
+    // para actualizar es el put, el put reemplaza
+    final resp = await http.put(Uri.parse(url), body: productoModelToJson( producto ) );
+
+    // Manejamos la respuesta
+    final decodedData = json.decode( resp.body );
+    // print( decodedData );
 
     return true;
   }
