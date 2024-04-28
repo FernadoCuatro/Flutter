@@ -65,6 +65,7 @@ class HomePage extends StatelessWidget {
       ),
       onDismissed: (direction) {
         // Aqui vamos a borrar el items
+        productosProvider.borrarProducto( producto.id );
       },
       child: ListTile(
         title: Text('${ producto.titulo } -  ${ producto.valor }'),

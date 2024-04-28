@@ -1,5 +1,5 @@
 // Este archivo se va a encargar de hacer todas las interacciones en la base de datos
-// ignore_for_file: avoid_print, unnecessary_null_comparison
+// ignore_for_file: avoid_print, unnecessary_null_comparison, unused_local_variable
 
 import 'dart:convert';
 
@@ -60,4 +60,18 @@ class ProductosProvider {
 
     return productos;
   }
+
+  // Vamos a borrar un item aqui
+  Future<int> borrarProducto(id) async {
+    // Necesitamos la url para el listado de los productos
+    final url = '$_url/productos/$id.json';
+
+    // Cargamos la peticion
+    final resp = await http.delete(Uri.parse(url));
+
+    // Manejamos la respuesta
+    return 1;
+  }
+
+
 }
