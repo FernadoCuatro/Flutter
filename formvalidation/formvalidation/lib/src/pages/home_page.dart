@@ -41,13 +41,36 @@ class HomePage extends StatelessWidget {
         // Validacion por si tiene los datos cargados o no
         if( snapshot.hasData ) {
 
-          return Container();
+          final productos = snapshot.data;
+          return ListView.builder(
+            itemCount: productos!.length,
+            itemBuilder: ( context, i ) => _crearItem( context, productos[i] ),
+          );
 
         } else {
           // Retornamos un indicador de carga
           return Center( child: CircularProgressIndicator() );
         }
       },
+    );
+  }
+  
+  // Creamos los items individuales 
+  Widget _crearItem( context, ProductoModel producto ) {
+    // el Dismissible lo agregamos para eliminar algun producto
+    return Dismissible(
+      key: UniqueKey(),
+      background: Container(
+        color: Colors.red,
+      ),
+      onDismissed: (direction) {
+        // Aqui vamos a borrar el items
+      },
+      child: ListTile(
+        title: Text('${ producto.titulo } -  ${ producto.valor }'),
+        subtitle: Text(producto.id),
+        onTap: () => Navigator.pushNamed( context, 'producto' ),
+      ),
     );
   }
   
