@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:formvalidation/src/models/producto_model.dart';
+import 'package:formvalidation/src/providers/productos_provider.dart';
 import 'package:formvalidation/src/utils/utils.dart' as utils;
 
 class ProductoPage extends StatefulWidget {
@@ -16,6 +17,7 @@ class _ProductoPageState extends State<ProductoPage> {
 
   // Propiedad para el modelo
   ProductoModel producto = ProductoModel();
+  final productosProvider = ProductosProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -149,9 +151,14 @@ class _ProductoPageState extends State<ProductoPage> {
     // Esto dispara todos los text form field que esten en el formulario
     formKey.currentState!.save();
     
-    print( producto.titulo );
-    print( producto.valor );
-    print( producto.disponible );
+    // print( producto.titulo );
+    // print( producto.valor );
+    // print( producto.disponible );
+
+  productosProvider.crearProducto( producto );
+    
+
+
 
   }
 }
