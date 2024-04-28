@@ -1,5 +1,5 @@
 // Este archivo se va a encargar de hacer todas las interacciones en la base de datos
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unnecessary_null_comparison
 
 import 'dart:convert';
 
@@ -26,5 +26,38 @@ class ProductosProvider {
     print( decodedData );
 
     return true;
+  }
+
+  // Vamos a listar los productos desde la base de datos
+  Future<List<ProductoModel>> cargarProductos() async {
+    // Necesitamos la url para el listado de los productos
+    final url = '$_url/productos.json';
+    // obtenemos los datos
+    final resp = await http.get(Uri.parse(url));
+
+    // Para trabajar el mapeo de los campos
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
+    // print (decodedData);
+    
+    // Validamos si hay datos o no
+    if( decodedData == null ) return [];
+
+    final List<ProductoModel> productos = [];
+
+    // Barremos la informacion para que el id esta amarrado a los datos
+    decodedData.forEach( (id, producto) {
+      // print( id );       -NwX7Esq-qEbWpa0I893
+      // print( producto ); {disponible: true, fotoUrl: , id: , titulo: Producto 3, valor: 2.5}
+
+      final productoTemporal = ProductoModel.fromJson( producto );
+      productoTemporal.id    = id;
+
+      // Almacenamos el producto temporal al listado general
+      productos.add( productoTemporal );
+    });
+
+    // print( productos );
+
+    return productos;
   }
 }
