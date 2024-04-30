@@ -1,6 +1,5 @@
 // Este archivo se va a encargar de hacer todas las interacciones en la base de datos
 // ignore_for_file: avoid_print, unnecessary_null_comparison, unused_local_variable
-
 import 'dart:convert';
 
 import 'package:formvalidation/src/models/producto_model.dart';
