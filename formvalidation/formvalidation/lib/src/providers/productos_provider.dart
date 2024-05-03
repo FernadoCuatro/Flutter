@@ -47,6 +47,7 @@ class ProductosProvider {
   Future<List<ProductoModel>> cargarProductos() async {
     // Necesitamos la url para el listado de los productos
     final url = '$_url/productos.json';
+    
     // obtenemos los datos
     final resp = await http.get(Uri.parse(url));
 
