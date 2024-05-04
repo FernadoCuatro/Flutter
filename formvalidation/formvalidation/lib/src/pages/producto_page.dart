@@ -1,5 +1,5 @@
 
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unused_local_variable, unnecessary_null_comparison, use_key_in_widget_constructors, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:formvalidation/src/models/producto_model.dart';
@@ -22,6 +22,12 @@ class _ProductoPageState extends State<ProductoPage> {
 
   @override
   Widget build(BuildContext context) {
+    // De esta manera estoy tomando el argumento si viene
+    final ProductoModel? prodData = ModalRoute.of(context)?.settings.arguments as ProductoModel?;
+
+    if( prodData != null ) {
+      producto = prodData;
+    }
     
     return Scaffold(
       appBar: AppBar(
@@ -154,12 +160,18 @@ class _ProductoPageState extends State<ProductoPage> {
     
     // print( producto.titulo );
     // print( producto.valor );
-    // print( producto.disponible );
+    print( producto.id );
 
-  productosProvider.crearProducto( producto );
+    // Creamos un producto porque no existe
+    if( producto.id == '' ) {
+      print("Nuevo");
+      productosProvider.crearProducto( producto );
+
+    // editamos el producto porque ya existe
+    } else {
+      // print("editar");
+      productosProvider.editarProducto( producto );
+    }
     
-
-
-
   }
 }

@@ -29,7 +29,7 @@ class ProductosProvider {
 
   // Editamos un producto
   Future<bool> editarProducto( ProductoModel producto ) async {
-    // Necesitamos apuntar al nodo de productos
+    // Necesitamos apuntar al nodo de productos por medio de id
     final url = '$_url/productos/${ producto.id }.json';
 
     // Peticion HTTP para hacer un posteo de informacion
