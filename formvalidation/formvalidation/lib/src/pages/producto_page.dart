@@ -1,5 +1,5 @@
 
-// ignore_for_file: prefer_const_constructors, unused_local_variable, unnecessary_null_comparison, use_key_in_widget_constructors, avoid_print
+// ignore_for_file: prefer_const_constructors, unused_local_variable, unnecessary_null_comparison, use_key_in_widget_constructors, avoid_print, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:formvalidation/src/models/producto_model.dart';
@@ -14,11 +14,16 @@ class ProductoPage extends StatefulWidget {
 
 class _ProductoPageState extends State<ProductoPage> {
   // id para el formulario
-  final formKey = GlobalKey<FormState>();
+  final formKey     = GlobalKey<FormState>();
+  // id para el scaffold
+  final scaffoldkey = GlobalKey<ScaffoldState>();
 
   // Propiedad para el modelo
   ProductoModel producto = ProductoModel();
   final productosProvider = ProductosProvider();
+  
+  // Para verificar que no le demos dos veces al boton de guardar
+  bool _guardando = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +35,7 @@ class _ProductoPageState extends State<ProductoPage> {
     }
     
     return Scaffold(
+      key: scaffoldkey,
       appBar: AppBar(
         title: Text('Producto'),
         
@@ -115,7 +121,7 @@ class _ProductoPageState extends State<ProductoPage> {
 
   Widget _crearBoton() {
     return ElevatedButton.icon(
-      onPressed: _submit,
+      onPressed: ( _guardando ) ? null : _submit,
       
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.green,
@@ -158,20 +164,45 @@ class _ProductoPageState extends State<ProductoPage> {
     // Esto dispara todos los text form field que esten en el formulario
     formKey.currentState!.save();
     
+    // Guadamos el estado
+    setState(() {
+      _guardando = true;
+    });
+
     // print( producto.titulo );
     // print( producto.valor );
-    print( producto.id );
+    // print( producto.id );
 
     // Creamos un producto porque no existe
     if( producto.id == '' ) {
-      print("Nuevo");
+      // print("Nuevo");
       productosProvider.crearProducto( producto );
 
+      mostrarSnackbar( 'Registro guardado' );
     // editamos el producto porque ya existe
     } else {
       // print("editar");
       productosProvider.editarProducto( producto );
+
+      mostrarSnackbar( 'Registro actualizado' );
     }
-    
+
+    setState(() {
+      _guardando = false;
+    });
+
+    // volvemos al listado de los productos
+    Navigator.pop(context);
   }
+
+  // Para mostrar el mensaje cuando se guarda
+  void mostrarSnackbar ( String mensaje ){
+    final snackbar = SnackBar(
+      content: Text( mensaje ),
+      duration: Duration(milliseconds:  1500),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar( snackbar );
+  }
+
 }
