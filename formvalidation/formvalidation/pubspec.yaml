@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   rxdart: ^0.27.7 # libreria para validar y mezclar varios string
   http: # para hacer las peticiones http
-  image_picker:
+  image_picker: # para el manejo de imagenes
 
 dev_dependencies:
   flutter_test:

@@ -1,10 +1,10 @@
 
 // ignore_for_file: prefer_const_constructors, unused_local_variable, unnecessary_null_comparison, use_key_in_widget_constructors, avoid_print, unused_field
-
 import 'package:flutter/material.dart';
 import 'package:formvalidation/src/models/producto_model.dart';
 import 'package:formvalidation/src/providers/productos_provider.dart';
 import 'package:formvalidation/src/utils/utils.dart' as utils;
+import 'package:image_picker/image_picker.dart';
 
 class ProductoPage extends StatefulWidget {
   
@@ -25,6 +25,9 @@ class _ProductoPageState extends State<ProductoPage> {
   // Para verificar que no le demos dos veces al boton de guardar
   bool _guardando = false;
 
+  // Propiedad para almecenar la fotografia
+  late XFile? foto;
+
   @override
   Widget build(BuildContext context) {
     // De esta manera estoy tomando el argumento si viene
@@ -43,11 +46,11 @@ class _ProductoPageState extends State<ProductoPage> {
         actions: [
           IconButton(
             icon: Icon( Icons.photo_size_select_actual ),
-            onPressed: () {},
+            onPressed: _seleccionarFoto,
           ),
           IconButton(
             icon: Icon( Icons.camera_alt ),
-            onPressed: () {},
+            onPressed: _tomarFoto,
           )
         ],
       ),
@@ -203,6 +206,23 @@ class _ProductoPageState extends State<ProductoPage> {
     );
 
     ScaffoldMessenger.of(context).showSnackBar( snackbar );
+  }
+
+  // Metodo para el manejo de imagenes
+ _seleccionarFoto() async {
+  foto = (await ImagePicker().pickImage(source: ImageSource.gallery));
+
+
+
+  if(foto != null ) {
+    // limpieza
+  }
+
+  setState(() {  });
+ }
+
+  _tomarFoto() {
+
   }
 
 }
