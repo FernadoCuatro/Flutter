@@ -251,7 +251,7 @@ class _ProductoPageState extends State<ProductoPage> {
  }
 
   _tomarFoto() {
-
+    // en lugar de gallery se sellecionara camera
   }
 
 }
