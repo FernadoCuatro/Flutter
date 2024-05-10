@@ -1,5 +1,7 @@
 
-// ignore_for_file: prefer_const_constructors, unused_local_variable, unnecessary_null_comparison, use_key_in_widget_constructors, avoid_print, unused_field
+// ignore_for_file: prefer_const_constructors, unused_local_variable, unnecessary_null_comparison, use_key_in_widget_constructors, avoid_print, unused_field, avoid_init_to_null
+
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:formvalidation/src/models/producto_model.dart';
 import 'package:formvalidation/src/providers/productos_provider.dart';
@@ -26,7 +28,7 @@ class _ProductoPageState extends State<ProductoPage> {
   bool _guardando = false;
 
   // Propiedad para almecenar la fotografia
-  late XFile? foto;
+  File? foto = null;
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +152,7 @@ class _ProductoPageState extends State<ProductoPage> {
         producto.disponible = value;
       }),
     );
-  }
+  } 
 
   // Metodo para controlar el submit 
   void _submit() {
@@ -211,15 +213,25 @@ class _ProductoPageState extends State<ProductoPage> {
 
   // Mostramos la foto 
   Widget _mostrarFoto() {
+    // print(foto?.path);
+
     // print( producto.fotoUrl );
     if( producto.fotoUrl == '' ) {
       // Si no tenemos foto usamos una foto asignada
-      return Image(
-        image: AssetImage('assets/no-image.png'),
-        height: 500.0,
-        fit: BoxFit.cover,
-      );
-      
+
+      if(foto?.path != null) {
+        return Image.network(
+            foto!.path,
+            height: 300.0,
+            fit: BoxFit.cover,
+          );
+      } else {
+        return Image(
+          image: AssetImage('assets/no-image.png'),
+          height: 300.0,
+          fit: BoxFit.cover,
+        );
+      }      
     } else {
 
       return Container();
@@ -228,19 +240,14 @@ class _ProductoPageState extends State<ProductoPage> {
 
   // Metodo para el manejo de imagenes
  _seleccionarFoto() async {
-  // hasta que el usuario responda almaceno la imagen
-  foto = (await ImagePicker().pickImage(
-    source: ImageSource.gallery
-    )
-  );
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-  if(foto != null ) {
-    // limpieza por si la foto es nula
-
-  }
-
-  // que se redibuje el widget
-  setState(() { });
+    if (pickedFile != null) {
+      setState(() {
+        foto = File(pickedFile.path);
+      });
+    }
  }
 
   _tomarFoto() {
