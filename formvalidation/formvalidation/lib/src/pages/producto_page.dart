@@ -64,6 +64,7 @@ class _ProductoPageState extends State<ProductoPage> {
             key: formKey,
             child: Column(
               children: [
+                _mostrarFoto(),
                 _crearNombre(),
                 _crearPrecio(),
                 _crearDisponible(),
@@ -174,7 +175,7 @@ class _ProductoPageState extends State<ProductoPage> {
 
     // print( producto.titulo );
     // print( producto.valor );
-    // print( producto.id );
+    // print( producto.fotoUrl );
 
     // Creamos un producto porque no existe
     if( producto.id == '' ) {
@@ -208,17 +209,38 @@ class _ProductoPageState extends State<ProductoPage> {
     ScaffoldMessenger.of(context).showSnackBar( snackbar );
   }
 
-  // Metodo para el manejo de imagenes
- _seleccionarFoto() async {
-  foto = (await ImagePicker().pickImage(source: ImageSource.gallery));
+  // Mostramos la foto 
+  Widget _mostrarFoto() {
+    // print( producto.fotoUrl );
+    if( producto.fotoUrl == '' ) {
+      // Si no tenemos foto usamos una foto asignada
+      return Image(
+        image: AssetImage('assets/no-image.png'),
+        height: 500.0,
+        fit: BoxFit.cover,
+      );
+      
+    } else {
 
-
-
-  if(foto != null ) {
-    // limpieza
+      return Container();
+    }
   }
 
-  setState(() {  });
+  // Metodo para el manejo de imagenes
+ _seleccionarFoto() async {
+  // hasta que el usuario responda almaceno la imagen
+  foto = (await ImagePicker().pickImage(
+    source: ImageSource.gallery
+    )
+  );
+
+  if(foto != null ) {
+    // limpieza por si la foto es nula
+
+  }
+
+  // que se redibuje el widget
+  setState(() { });
  }
 
   _tomarFoto() {
