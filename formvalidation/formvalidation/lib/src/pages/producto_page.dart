@@ -83,13 +83,13 @@ class _ProductoPageState extends State<ProductoPage> {
     // El TextFormField trabaja directamente con un formulario
     return TextFormField(
       // inicializamos el valor con la propiedad de la clase
-      initialValue: producto.titulo,
+      initialValue: producto.descripcion,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Nombre Producto'
       ),
       // El onsave se ejecuta luego del validator
-      onSaved: ( value ) => producto.titulo = value!,
+      onSaved: ( value ) => producto.descripcion = value!,
       // Vamos a crear las validaciones
       validator: (value) {
         if ( value!.length < 5 ) {
@@ -104,13 +104,13 @@ class _ProductoPageState extends State<ProductoPage> {
   Widget _crearPrecio() {
     // El TextFormField trabaja directamente con un formulario
     return TextFormField(
-      initialValue: producto.valor.toString(),
+      initialValue: producto.precio.toString(),
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(
         labelText: 'Precio'
       ),
       // El onsave se ejecuta luego del validator
-      onSaved: ( value ) => producto.valor = double.parse(value!),
+      onSaved: ( value ) => producto.precio = double.parse(value!),
       // aqui la validacion es importante porque 
       // lleva un numero a fuerza
       validator: ( value ) {
@@ -145,11 +145,11 @@ class _ProductoPageState extends State<ProductoPage> {
   
   Widget _crearDisponible() {
     return SwitchListTile(
-      value: producto.disponible,
+      value: producto.isFeatured,
       title: Text('Disponible'),
       // activeColor: Colors.black38,
       onChanged: (value) => setState(() {
-        producto.disponible = value;
+        producto.isFeatured = value;
       }),
     );
   } 
@@ -216,7 +216,7 @@ class _ProductoPageState extends State<ProductoPage> {
     // print(foto?.path);
 
     // print( producto.fotoUrl );
-    if( producto.fotoUrl == '' ) {
+    if( producto.imagen == '' ) {
       // Si no tenemos foto usamos una foto asignada
 
       if(foto?.path != null) {

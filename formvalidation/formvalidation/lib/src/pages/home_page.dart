@@ -5,6 +5,8 @@ import 'package:formvalidation/src/models/producto_model.dart';
 import 'package:formvalidation/src/providers/productos_provider.dart';
 // import 'package:formvalidation/src/bloc/provider.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
+
 class HomePage extends StatelessWidget {
 
   // El provider donde se maneja la informacion a base de datos
@@ -67,14 +69,30 @@ class HomePage extends StatelessWidget {
         // Aqui vamos a borrar el items
         productosProvider.borrarProducto( producto.id );
       },
-      child: ListTile(
-        title: Text('${ producto.titulo } -  ${ producto.valor }'),
-        subtitle: Text(producto.id),
-        // pasamos el objeto de producto a la siguiente panalla
-        onTap: () => Navigator.pushNamed( context, 'producto', arguments: producto ),
-      ),
+
+        child: Card(
+          child: ListTile(
+            leading: CachedNetworkImage(
+              placeholder: (context, url) => CircularProgressIndicator(),
+              imageUrl: producto.imagen,
+              fit: BoxFit.cover,
+              width: 100,
+              height: 100,
+            ),
+            title: Text('Three-line ListTile'),
+            subtitle: Text('A sufficiently long subtitle warrants three lines.'),
+            trailing: Icon(Icons.more_vert),
+            isThreeLine: true,
+          ),
+        ),
+
     );
   }
+
+
+
+
+
   
   Widget _crearBoton( context ) {
     return FloatingActionButton(

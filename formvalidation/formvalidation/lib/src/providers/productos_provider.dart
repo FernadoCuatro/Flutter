@@ -1,10 +1,11 @@
 // Este archivo se va a encargar de hacer todas las interacciones en la base de datos
-// ignore_for_file: avoid_print, unnecessary_null_comparison, unused_local_variable
+// ignore_for_file: avoid_print, unnecessary_null_comparison, unused_local_variable, avoid_function_literals_in_foreach_calls
 import 'dart:convert';
 
 import 'package:formvalidation/src/models/producto_model.dart';
 // importamos http
 import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductosProvider {
   // Como necesitamos hacer peticiones HTTP exportamos el paquete en el pubspec.yaml
@@ -45,35 +46,39 @@ class ProductosProvider {
 
   // Vamos a listar los productos desde la base de datos
   Future<List<ProductoModel>> cargarProductos() async {
-    // Necesitamos la url para el listado de los productos
-    final url = '$_url/productos.json';
-    
-    // obtenemos los datos
-    final resp = await http.get(Uri.parse(url));
+    try {
+      // Accedemos a la colección "Productos" en Firestore
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('Productos').get();
 
-    // Para trabajar el mapeo de los campos
-    final Map<String, dynamic> decodedData = json.decode(resp.body);
-    // print (decodedData);
-    
-    // Validamos si hay datos o no
-    if( decodedData == null ) return [];
+      // Lista para almacenar los productos
+      List<ProductoModel> productos = [];
 
-    final List<ProductoModel> productos = [];
+      // Iteramos sobre los documentos obtenidos
+      querySnapshot.docs.forEach((doc) {
+        // Convertimos cada documento a un objeto ProductoModel
+        ProductoModel producto = ProductoModel(
+          descripcion: doc['descripcion'],
+          estado: doc['estado'],
+          idCategoria: doc['idCategoria'],
+          imagen: doc['imagen'],
+          isFeatured: doc['isFeatured'],
+          nombre: doc['nombre'],
+          nombreCategoria: doc['nombreCategoria'],
+          precio: doc['precio'],
+          tipoProducto: doc['tipoProducto'],
+        );
 
-    // Barremos la informacion para que el id esta amarrado a los datos
-    decodedData.forEach( (id, producto) {
-      // print( id );       -NwX7Esq-qEbWpa0I893
-      // print( producto ); {disponible: true, fotoUrl: , id: , titulo: Producto 3, valor: 2.5}
+        // Agregamos el producto a la lista
+        productos.add(producto);
+      });
 
-      final productoTemporal = ProductoModel.fromJson( producto );
-      productoTemporal.id    = id;
-
-      // Almacenamos el producto temporal al listado general
-      productos.add( productoTemporal );
-    });
-
-    // print( productos );
-    return productos;
+      return productos;
+    } catch (e) {
+      // Manejo de errores
+      print("Error al cargar productos: $e");
+      return []; // Retorna una lista vacía en caso de error
+    }
   }
 
   // Vamos a borrar un item aqui

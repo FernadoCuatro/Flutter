@@ -1,5 +1,5 @@
 // Aqui viene el inheritedWidget
-// ignore_for_file: use_key_in_widget_constructors, unnecessary_null_comparison, prefer_conditional_assignment
+// ignore_for_file: use_key_in_widget_constructors, unnecessary_null_comparison, prefer_conditional_assignment, use_super_parameters
 import 'package:flutter/material.dart';
 import 'package:formvalidation/src/bloc/login_bloc.dart';
 
