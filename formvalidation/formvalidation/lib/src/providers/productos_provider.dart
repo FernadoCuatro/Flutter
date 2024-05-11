@@ -58,15 +58,15 @@ class ProductosProvider {
       querySnapshot.docs.forEach((doc) {
         // Convertimos cada documento a un objeto ProductoModel
         ProductoModel producto = ProductoModel(
-          descripcion: doc['descripcion'],
-          estado: doc['estado'],
-          idCategoria: doc['idCategoria'],
-          imagen: doc['imagen'],
-          isFeatured: doc['isFeatured'],
-          nombre: doc['nombre'],
+          descripcion    : doc['descripcion'],
+          estado         : doc['estado'],
+          idCategoria    : doc['idCategoria'],
+          imagen         : doc['imagen'],
+          isFeatured     : doc['isFeatured'],
+          nombre         : doc['nombre'],
           nombreCategoria: doc['nombreCategoria'],
-          precio: doc['precio'],
-          tipoProducto: doc['tipoProducto'],
+          precio         : doc['precio'],
+          tipoProducto   : doc['tipoProducto'],
         );
 
         // Agregamos el producto a la lista

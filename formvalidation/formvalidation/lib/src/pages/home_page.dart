@@ -1,11 +1,9 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, use_key_in_widget_constructors, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
 import 'package:formvalidation/src/models/producto_model.dart';
 import 'package:formvalidation/src/providers/productos_provider.dart';
 // import 'package:formvalidation/src/bloc/provider.dart';
-
-import 'package:cached_network_image/cached_network_image.dart';
 
 class HomePage extends StatelessWidget {
 
@@ -21,7 +19,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar:AppBar(
         // Obteniendo la informacion del bloc aqui tambien
-        title: Text('Inicio')
+        title: Text('Hola, Administrador')
       ),
 
       // Text('Email: ${ bloc?.email } '),
@@ -70,30 +68,159 @@ class HomePage extends StatelessWidget {
         productosProvider.borrarProducto( producto.id );
       },
 
-        child: Card(
-          child: ListTile(
-            leading: CachedNetworkImage(
-              placeholder: (context, url) => CircularProgressIndicator(),
-              imageUrl: producto.imagen,
-              fit: BoxFit.cover,
-              width: 100,
-              height: 100,
+      child: Card(
+        child: ListTile(
+          onTap: () {
+            Navigator.pushNamed(context, 'producto', arguments: producto);
+          },
+        title: Container(
+          child: Padding(
+            padding: EdgeInsets.all(8.0), 
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded (
+                  flex: 1, // La imagen ocupa el 50% del ancho
+                  child: FadeInImage(
+                    fadeInDuration: Duration( milliseconds: 200 ),
+                    height: 200,
+                    fit: BoxFit.cover,
+                    placeholder: AssetImage('assets/preloader.gif'),
+                    image: NetworkImage(producto.imagen),
+                  ),
+                ),
+                SizedBox(width: 10.0),
+                Expanded(
+                  flex: 1, // El texto ocupa el 50% del ancho
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Titulo
+                      Center(
+                        child: Text(
+                          producto.nombre,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+          
+                      // Vamos dejando un espacio
+                      SizedBox(height: 5),
+          
+                      // Categoria y Precio
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Widget para la categoría con un icono y texto
+                          Row(
+                            children: [
+                              Icon(Icons.category_rounded, size: 18.0, color: Colors.lightBlue), 
+                              SizedBox(width: 3),
+                              Text(
+                                producto.nombreCategoria,
+                                style: TextStyle(
+                                  fontSize: 10.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.lightBlue
+                                ),
+                              ),
+                            ],
+                          ),
+                          // Widget para el precio
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              '\$${producto.precio.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+          
+                      // Descripcion
+                      Container(
+                        alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(bottom: 10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0), // Redondea los bordes del Container
+                          color: Colors.white, // Color de fondo del Container
+                        ),
+                        padding: EdgeInsets.all(5.0),
+                        constraints: BoxConstraints(minHeight: 110),
+                        child: 
+                        Text(
+                          producto.descripcion,
+                          style: TextStyle(
+                            fontSize: 12.0
+                          ),
+                        ),
+                      ),
+          
+                      // Disponible y Destacado
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Disponible:',
+                                style: TextStyle(
+                                  fontSize: 12.0
+                                ),
+                              ),
+                              SizedBox(width: 3),
+          
+                              if (producto.estado == 'Disponible') 
+                              Container(
+                                child: Icon( Icons.circle_rounded, size: 18.0, color: Colors.green ),
+                              )
+                              else
+                              Container(
+                                child: Icon( Icons.circle_rounded, size: 18.0, color: Colors.red ),
+                              ),
+                            ],
+                          ),
+                          // Widget para el destacado
+                          Row(
+                            children: [
+                              Text(
+                                'Destacado:',
+                                style: TextStyle(
+                                  fontSize: 12.0
+                                ),
+                              ),
+                              SizedBox(width: 3),
+          
+                              if (producto.isFeatured == true) 
+                              Container(
+                                child: Icon( Icons.star, size: 18.0, color: Colors.green ),
+                              )
+                              else
+                              Container(
+                                child: Icon( Icons.star_border, size: 18.0, color: Colors.green ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            title: Text('Three-line ListTile'),
-            subtitle: Text('A sufficiently long subtitle warrants three lines.'),
-            trailing: Icon(Icons.more_vert),
-            isThreeLine: true,
           ),
         ),
-
+      ),
+      ),
     );
   }
 
-
-
-
-
-  
   Widget _crearBoton( context ) {
     return FloatingActionButton(
       child: Icon( Icons.add ),
