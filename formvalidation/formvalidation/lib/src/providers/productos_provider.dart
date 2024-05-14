@@ -13,35 +13,57 @@ class ProductosProvider {
   // Url de la base de datos de firabase
   final String _url = 'https://pupuseria-chilin-default-rtdb.firebaseio.com';
   
-  // Creamos productos en la base de datos
-  Future<bool> crearProducto( ProductoModel producto ) async {
-    // Necesitamos apuntar al nodo de productos
-    final url = '$_url/productos.json';
+  // Agregamos un producto a la base de datos
+  Future<bool> crearProducto(ProductoModel producto) async {
+    try {
+      // Referencia a la colección "Productos" en Firestore
+      CollectionReference productosRef = FirebaseFirestore.instance.collection('Productos');
 
-    // Peticion HTTP para hacer un posteo de informacion
-    final resp = await http.post(Uri.parse(url), body: productoModelToJson( producto ) );
+      // Agregamos un nuevo documento con los datos del producto
+      await productosRef.add({
+        'descripcion'    : producto.descripcion,
+        'estado'         : producto.estado,
+        'idCategoria'    : producto.idCategoria,
+        'imagen'         : producto.imagen, // Añade la imagen si es necesario
+        'isFeatured'     : producto.isFeatured,
+        'nombre'         : producto.nombre,
+        'nombreCategoria': producto.nombreCategoria,
+        'precio'         : producto.precio,
+        'tipoProducto'   : 'ProductType.single',
+      });
 
-    // Manejamos la respuesta
-    final decodedData = json.decode( resp.body );
-    // print( decodedData );
-
-    return true;
+      return true;
+    } catch (e) {
+      // Manejo de errores
+      print("Error al crear el producto: $e");
+      return false;
+    }
   }
 
   // Editamos un producto
-  Future<bool> editarProducto( ProductoModel producto ) async {
-    // Necesitamos apuntar al nodo de productos por medio de id
-    final url = '$_url/productos/${ producto.id }.json';
+  Future<bool> editarProducto(ProductoModel producto) async {
+    try {
+      // Referencia al documento que queremos editar
+      DocumentReference productoRef = FirebaseFirestore.instance.collection('Productos').doc(producto.id);
 
-    // Peticion HTTP para hacer un posteo de informacion
-    // para actualizar es el put, el put reemplaza
-    final resp = await http.put(Uri.parse(url), body: productoModelToJson( producto ) );
+      // Actualizamos los campos que deseamos modificar
+      await productoRef.update({
+        'descripcion'    : producto.descripcion,
+        'estado'         : producto.estado,
+        'idCategoria'    : producto.idCategoria,
+        'isFeatured'     : producto.isFeatured,
+        'nombre'         : producto.nombre,
+        'nombreCategoria': producto.nombreCategoria,
+        'precio'         : producto.precio,
+        'tipoProducto'   : producto.tipoProducto
+      });
 
-    // Manejamos la respuesta
-    final decodedData = json.decode( resp.body );
-    // print( decodedData );
-
-    return true;
+      return true;
+    } catch (e) {
+      // Manejo de errores
+      print("Error al editar el producto: $e");
+      return false;
+    }
   }
 
   Future<List<ProductoModel>> cargarProductos() async {
