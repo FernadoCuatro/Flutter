@@ -1,5 +1,5 @@
 
-// ignore_for_file: prefer_const_constructors, unused_local_variable, unnecessary_null_comparison, use_key_in_widget_constructors, avoid_print, unused_field, avoid_init_to_null
+// ignore_for_file: prefer_const_constructors, unused_local_variable, unnecessary_null_comparison, use_key_in_widget_constructors, avoid_print, unused_field, avoid_init_to_null, avoid_unnecessary_containers, sized_box_for_whitespace, no_leading_underscores_for_local_identifiers
 
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -45,33 +45,55 @@ class _ProductoPageState extends State<ProductoPage> {
         title: Text('Producto'),
         
         // Vamos a crear las apciones para tomar foto o tomarla de la galeria
-        actions: [
-          IconButton(
-            icon: Icon( Icons.photo_size_select_actual ),
-            onPressed: _seleccionarFoto,
-          ),
-          IconButton(
-            icon: Icon( Icons.camera_alt ),
-            onPressed: _tomarFoto,
-          )
-        ],
+        // Si el producto tiene foto, no vamos a permitir modificar
+        actions: producto.id == ''
+        ? [
+            IconButton(
+              icon: Icon(Icons.photo_size_select_actual),
+              onPressed: _seleccionarFoto,
+            ),
+            IconButton(
+              icon: Icon(Icons.camera_alt),
+              onPressed: _tomarFoto,
+            )
+          ]
+        : null,
       ),
 
       // Body
       body: SingleChildScrollView(
-        child: Container( 
-          padding: EdgeInsets.all(5),
-          // Como si fuera un container pero como un submit en HTML
-          child: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                _mostrarFoto(),
-                _crearNombre(),
-                _crearPrecio(),
-                _crearDisponible(),
-                _crearBoton()
-              ],
+        child: Padding(
+          padding: EdgeInsets.only(left: 20, right: 20),
+          child: Container(
+            // Aquí va el resto de tu código
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  _mostrarFoto(),
+                  _crearNombre(),
+                  SizedBox(height: 10),
+                  _crearDescripcion(),
+
+                  Row(
+                    children: [
+                      // 30% de la pantalla
+                      Expanded( flex: 3, child: _crearTipoProducto() ),
+                      // 70% de la pantalla
+                      Expanded( flex: 7,  child: _crearPrecio() ),
+                    ],
+                  ),
+
+                  SizedBox(height: 10),
+                  _seleccionarCategoria(),
+                  SizedBox(height: 10),
+                  
+                  _crearDisponible(),
+
+                  SizedBox(height: 10),
+                  _crearBoton()
+                ],
+              ),
             ),
           ),
         ),
@@ -83,13 +105,13 @@ class _ProductoPageState extends State<ProductoPage> {
     // El TextFormField trabaja directamente con un formulario
     return TextFormField(
       // inicializamos el valor con la propiedad de la clase
-      initialValue: producto.descripcion,
+      initialValue: producto.nombre,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Nombre Producto'
       ),
       // El onsave se ejecuta luego del validator
-      onSaved: ( value ) => producto.descripcion = value!,
+      onSaved: ( value ) => producto.nombre = value!,
       // Vamos a crear las validaciones
       validator: (value) {
         if ( value!.length < 5 ) {
@@ -101,10 +123,52 @@ class _ProductoPageState extends State<ProductoPage> {
     );
   }
 
+
+  Widget _crearDescripcion() {
+    // El TextFormField trabaja directamente con un formulario
+    return Container(
+      // Altura definida
+      height: 80, 
+      color: Colors.grey[100],
+      child: SingleChildScrollView(
+        child: TextFormField(
+          // inicializamos el valor con la propiedad de la clase
+          initialValue: producto.descripcion,
+          textCapitalization: TextCapitalization.sentences,
+          decoration: InputDecoration(
+            labelText: 'Descripción del Producto',
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none, // Quita el borde del TextFormField
+            ),
+          ),
+          maxLines: null, // Esto permite que el campo sea multilinea
+          // El onsave se ejecuta luego del validator
+          onSaved: ( value ) => producto.descripcion = value!,
+          // Vamos a crear las validaciones
+          validator: (value) {
+            if ( value!.length < 5 ) {
+              return 'Ingrese una descripción de producto valida';
+            } else {
+              return null;
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _crearTipoProducto() {
+    // El TextFormField trabaja directamente con un formulario
+    return Text(
+      'Presentación:\nUNIDAD',
+      textAlign: TextAlign.start,
+    );
+  }
+
   Widget _crearPrecio() {
     // El TextFormField trabaja directamente con un formulario
     return TextFormField(
-      initialValue: producto.precio.toString(),
+      initialValue: producto.precio.toStringAsFixed(2),
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(
         labelText: 'Precio'
@@ -125,7 +189,39 @@ class _ProductoPageState extends State<ProductoPage> {
     );
   }
 
+  Widget _seleccionarCategoria() {
+    Map<int, String> categorias = {
+      1: "Tradicionales",
+      2: "Especialidades",
+      3: "Postres",
+      4: "Bebidas Heladas",
+    };
+
+    // print( producto.idCategoria );
+
+    String? _categoriaSeleccionada;
+
+    return DropdownButton<int>(
+      value: producto.idCategoria.isNotEmpty ? int.parse(producto.idCategoria) : null,
+      hint: Text('Seleccionar categoría'),
+      onChanged: (int? newValue) {
+        setState(() {
+          // Asignar el nuevo valor de categoría a producto.idCategoria
+          producto.idCategoria = newValue.toString();
+        });
+      },
+      items: categorias.keys.map((int key) {
+        return DropdownMenuItem<int>(
+          value: key,
+          child: Text(categorias[key]!),
+        );
+      }).toList(),
+    );
+  }
+
   Widget _crearBoton() {
+    // print("Valor de producto.id: ${producto.id}");
+
     return ElevatedButton.icon(
       onPressed: ( _guardando ) ? null : _submit,
       
@@ -138,19 +234,39 @@ class _ProductoPageState extends State<ProductoPage> {
         ),
         elevation: 0,
       ),
-      label: Text('Guardar'),
+      label: Text(
+        ( producto.id == '' ) ? 'Guardar' : 'Actualizar',
+      ),
       icon: Icon( Icons.save ),
     );
   }
   
   Widget _crearDisponible() {
-    return SwitchListTile(
-      value: producto.isFeatured,
-      title: Text('Disponible'),
-      // activeColor: Colors.black38,
-      onChanged: (value) => setState(() {
-        producto.isFeatured = value;
-      }),
+    // Aqui vamos a colocar dos swich uno para disponible y otro para destacado
+    return Row(
+      children: [
+        Flexible(
+          flex: 1,
+          child: SwitchListTile(
+            value: producto.estado == "Disponible", // Convertir a true si es "Disponible", false si no lo es
+            title: Text('Disponible'),
+            onChanged: (value) => setState(() {
+              // Actualizar el estado según el valor del Switch
+              producto.estado = value ? "Disponible" : "No Disponible";
+            }),
+          ),
+        ),
+        Flexible(
+          flex: 1,
+          child: SwitchListTile(
+            value: producto.isFeatured,
+            title: Text('Destacado'),
+            onChanged: (value) => setState(() {
+              producto.isFeatured = value;
+            }),
+          ),
+        ),
+      ],
     );
   } 
 
@@ -233,8 +349,12 @@ class _ProductoPageState extends State<ProductoPage> {
         );
       }      
     } else {
-
-      return Container();
+      return Image.network(
+        producto.imagen,
+        height: 300.0,
+        width: 300.0,
+        fit: BoxFit.cover,
+      );
     }
   }
 

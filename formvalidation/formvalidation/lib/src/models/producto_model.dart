@@ -1,8 +1,7 @@
 // ignore_for_file: unnecessary_new
 import 'dart:convert';
 
-ProductoModel productoModelFromJson(String str) =>
-    ProductoModel.fromJson(json.decode(str));
+ProductoModel productoModelFromJson(String str) => ProductoModel.fromJson(json.decode(str));
 
 String productoModelToJson(ProductoModel data) => json.encode(data.toJson());
 
@@ -21,16 +20,16 @@ class ProductoModel {
 
   // Constructor
   ProductoModel({
-    this.id = '',
-    this.descripcion = '',
-    this.estado = '',
-    this.idCategoria = '',
-    this.imagen = '',
-    this.isFeatured = false,
-    this.nombre = '',
+    this.id              = '',
+    this.descripcion     = '',
+    this.estado          = '',
+    this.idCategoria     = '',
+    this.imagen          = '',
+    this.isFeatured      = false,
+    this.nombre          = '',
     this.nombreCategoria = '',
-    this.precio = 0.0,
-    this.tipoProducto = '',
+    this.precio          = 0.0,
+    this.tipoProducto    = '',
   });
 
   factory ProductoModel.fromJson(Map<String, dynamic> json) => ProductoModel(

@@ -44,12 +44,10 @@ class ProductosProvider {
     return true;
   }
 
-  // Vamos a listar los productos desde la base de datos
   Future<List<ProductoModel>> cargarProductos() async {
     try {
-      // Accedemos a la colección "Productos" en Firestore
-      QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection('Productos').get();
+      // Accedemos a la colección "Productos"
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Productos').get();
 
       // Lista para almacenar los productos
       List<ProductoModel> productos = [];
@@ -58,6 +56,7 @@ class ProductosProvider {
       querySnapshot.docs.forEach((doc) {
         // Convertimos cada documento a un objeto ProductoModel
         ProductoModel producto = ProductoModel(
+          id: doc.id, // Aquí asignamos el ID del documento
           descripcion    : doc['descripcion'],
           estado         : doc['estado'],
           idCategoria    : doc['idCategoria'],
@@ -80,7 +79,7 @@ class ProductosProvider {
       return []; // Retorna una lista vacía en caso de error
     }
   }
-
+  
   // Vamos a borrar un item aqui
   Future<int> borrarProducto(id) async {
     // Necesitamos la url para el listado de los productos

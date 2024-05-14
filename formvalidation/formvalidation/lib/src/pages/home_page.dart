@@ -62,6 +62,19 @@ class HomePage extends StatelessWidget {
       key: UniqueKey(),
       background: Container(
         color: Colors.red,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: Icon(Icons.delete, color: Colors.white, size: 25), // Icono a la izquierda
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Icon(Icons.delete, color: Colors.white, size: 25), // Icono a la derecha
+            ),
+          ],
+        ),
       ),
       onDismissed: (direction) {
         // Aqui vamos a borrar el items
@@ -69,154 +82,155 @@ class HomePage extends StatelessWidget {
       },
 
       child: Card(
+        margin: EdgeInsets.only(left: 30, bottom: 20, right: 30),
         child: ListTile(
           onTap: () {
             Navigator.pushNamed(context, 'producto', arguments: producto);
           },
-        title: Container(
-          child: Padding(
-            padding: EdgeInsets.all(8.0), 
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded (
-                  flex: 1, // La imagen ocupa el 50% del ancho
-                  child: FadeInImage(
-                    fadeInDuration: Duration( milliseconds: 200 ),
-                    height: 200,
-                    fit: BoxFit.cover,
-                    placeholder: AssetImage('assets/preloader.gif'),
-                    image: NetworkImage(producto.imagen),
+          title: Container(
+            child: Padding(
+              padding: EdgeInsets.all(0), 
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded (
+                    flex: 1, // La imagen ocupa el 50% del ancho
+                    child: FadeInImage(
+                      fadeInDuration: Duration( milliseconds: 200 ),
+                      height: 200,
+                      fit: BoxFit.cover,
+                      placeholder: AssetImage('assets/preloader.gif'),
+                      image: NetworkImage(producto.imagen),
+                    ),
                   ),
-                ),
-                SizedBox(width: 10.0),
-                Expanded(
-                  flex: 1, // El texto ocupa el 50% del ancho
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Titulo
-                      Center(
-                        child: Text(
-                          producto.nombre,
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-          
-                      // Vamos dejando un espacio
-                      SizedBox(height: 5),
-          
-                      // Categoria y Precio
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Widget para la categoría con un icono y texto
-                          Row(
-                            children: [
-                              Icon(Icons.category_rounded, size: 18.0, color: Colors.lightBlue), 
-                              SizedBox(width: 3),
-                              Text(
-                                producto.nombreCategoria,
-                                style: TextStyle(
-                                  fontSize: 10.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.lightBlue
-                                ),
-                              ),
-                            ],
-                          ),
-                          // Widget para el precio
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              '\$${producto.precio.toStringAsFixed(2)}',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green,
-                              ),
+                  SizedBox(width: 10.0),
+                  Expanded(
+                    flex: 1, // El texto ocupa el 50% del ancho
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Titulo
+                        Center(
+                          child: Text(
+                            producto.nombre,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ],
-                      ),
-          
-                      // Descripcion
-                      Container(
-                        alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(bottom: 10.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0), // Redondea los bordes del Container
-                          color: Colors.white, // Color de fondo del Container
                         ),
-                        padding: EdgeInsets.all(5.0),
-                        constraints: BoxConstraints(minHeight: 110),
-                        child: 
-                        Text(
-                          producto.descripcion,
-                          style: TextStyle(
-                            fontSize: 12.0
-                          ),
-                        ),
-                      ),
-          
-                      // Disponible y Destacado
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Disponible:',
+            
+                        // Vamos dejando un espacio
+                        SizedBox(height: 5),
+            
+                        // Categoria y Precio
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Widget para la categoría con un icono y texto
+                            Row(
+                              children: [
+                                Icon(Icons.category_rounded, size: 18.0, color: Colors.lightBlue), 
+                                SizedBox(width: 3),
+                                Text(
+                                  producto.nombreCategoria,
+                                  style: TextStyle(
+                                    fontSize: 10.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.lightBlue
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // Widget para el precio
+                            Container(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                '\$${producto.precio.toStringAsFixed(2)}',
                                 style: TextStyle(
-                                  fontSize: 12.0
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
                                 ),
                               ),
-                              SizedBox(width: 3),
-          
-                              if (producto.estado == 'Disponible') 
-                              Container(
-                                child: Icon( Icons.circle_rounded, size: 18.0, color: Colors.green ),
-                              )
-                              else
-                              Container(
-                                child: Icon( Icons.circle_rounded, size: 18.0, color: Colors.red ),
-                              ),
-                            ],
+                            ),
+                          ],
+                        ),
+            
+                        // Descripcion
+                        Container(
+                          alignment: Alignment.topLeft,
+                          margin: EdgeInsets.only(bottom: 10.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0), // Redondea los bordes del Container
+                            color: Colors.white, // Color de fondo del Container
                           ),
-                          // Widget para el destacado
-                          Row(
-                            children: [
-                              Text(
-                                'Destacado:',
-                                style: TextStyle(
-                                  fontSize: 12.0
+                          padding: EdgeInsets.all(5.0),
+                          constraints: BoxConstraints(minHeight: 110),
+                          child: 
+                          Text(
+                            producto.descripcion,
+                            style: TextStyle(
+                              fontSize: 12.0
+                            ),
+                          ),
+                        ),
+            
+                        // Disponible y Destacado
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'Disponible:',
+                                  style: TextStyle(
+                                    fontSize: 12.0
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 3),
-          
-                              if (producto.isFeatured == true) 
-                              Container(
-                                child: Icon( Icons.star, size: 18.0, color: Colors.green ),
-                              )
-                              else
-                              Container(
-                                child: Icon( Icons.star_border, size: 18.0, color: Colors.green ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                                SizedBox(width: 3),
+            
+                                if (producto.estado == 'Disponible') 
+                                Container(
+                                  child: Icon( Icons.circle_rounded, size: 18.0, color: Colors.green ),
+                                )
+                                else
+                                Container(
+                                  child: Icon( Icons.circle_outlined, size: 18.0, color: Colors.red ),
+                                ),
+                              ],
+                            ),
+                            // Widget para el destacado
+                            Row(
+                              children: [
+                                Text(
+                                  'Destacado:',
+                                  style: TextStyle(
+                                    fontSize: 12.0
+                                  ),
+                                ),
+                                SizedBox(width: 3),
+            
+                                if (producto.isFeatured == true) 
+                                Container(
+                                  child: Icon( Icons.star, size: 18.0, color: Colors.green ),
+                                )
+                                else
+                                Container(
+                                  child: Icon( Icons.star_border, size: 18.0, color: Colors.green ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
-      ),
       ),
     );
   }
