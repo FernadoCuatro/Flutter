@@ -30,10 +30,12 @@ class ProductosProvider {
         'tipoProducto'   : 'ProductType.single',
 
         // Mapa adicional después de 'tipoProducto'
-        '0': {
-          'nombre': 'Tipo de Masa',
-          'valor': ['Arroz', 'Maiz']
-        }
+        'attributosProducto': [
+          {
+            'nombre': 'Tipo de Masa',
+            'valor': ['Arroz', 'Maiz']
+          }
+        ]
       });
 
       return true;
@@ -118,7 +120,7 @@ class ProductosProvider {
       // Referencia al documento que queremos eliminar
       DocumentReference productoRef = FirebaseFirestore.instance.collection('Productos').doc(id);
 
-      // Eliminamos el documento
+      // Eliminamos el documento 
       await productoRef.delete();
 
       return 1; // Éxito al borrar el producto

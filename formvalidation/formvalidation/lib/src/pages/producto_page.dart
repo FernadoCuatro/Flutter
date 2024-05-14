@@ -208,6 +208,9 @@ class _ProductoPageState extends State<ProductoPage> {
         setState(() {
           // Asignar el nuevo valor de categoría a producto.idCategoria
           producto.idCategoria = newValue.toString();
+
+          // Asignar el nombre de la categoría a producto.nombreCategoria
+          producto.nombreCategoria = categorias[newValue]!;
         });
       },
       items: categorias.keys.map((int key) {
