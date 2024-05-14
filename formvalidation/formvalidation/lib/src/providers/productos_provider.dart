@@ -1,7 +1,5 @@
 // Este archivo se va a encargar de hacer todas las interacciones en la base de datos
-// ignore_for_file: avoid_print, unnecessary_null_comparison, unused_local_variable, avoid_function_literals_in_foreach_calls
-import 'dart:convert';
-
+// ignore_for_file: avoid_print, unnecessary_null_comparison, unused_local_variable, avoid_function_literals_in_foreach_calls, unused_import, unused_field
 import 'package:formvalidation/src/models/producto_model.dart';
 // importamos http
 import 'package:http/http.dart' as http;
@@ -30,6 +28,12 @@ class ProductosProvider {
         'nombreCategoria': producto.nombreCategoria,
         'precio'         : producto.precio,
         'tipoProducto'   : 'ProductType.single',
+
+        // Mapa adicional después de 'tipoProducto'
+        '0': {
+          'nombre': 'Tipo de Masa',
+          'valor': ['Arroz', 'Maiz']
+        }
       });
 
       return true;
@@ -103,14 +107,26 @@ class ProductosProvider {
   }
   
   // Vamos a borrar un item aqui
-  Future<int> borrarProducto(id) async {
-    // Necesitamos la url para el listado de los productos
-    final url = '$_url/productos/$id.json';
+  Future<int> borrarProducto(String id) async {
+    // // Necesitamos la url para el listado de los productos
+    // final url = '$_url/productos/$id.json';
 
-    // Cargamos la peticion
-    final resp = await http.delete( Uri.parse(url) );
+    // // Cargamos la peticion
+    // final resp = await http.delete( Uri.parse(url) );
 
-    // Manejamos la respuesta
-    return 1;
+    try {
+      // Referencia al documento que queremos eliminar
+      DocumentReference productoRef = FirebaseFirestore.instance.collection('Productos').doc(id);
+
+      // Eliminamos el documento
+      await productoRef.delete();
+
+      return 1; // Éxito al borrar el producto
+    } catch (e) {
+      // Manejo de errores
+      print("Error al borrar el producto: $e");
+      return 0; // Error al borrar el producto
+    }
   }
+
 }
