@@ -17,6 +17,7 @@ Future main() async {
       appId: "1:543987647187:android:096771e09a47c715b38a26",
       messagingSenderId: "543987647187",
       projectId: "pupuseriachilin",
+      storageBucket: "pupuseriachilin.appspot.com", 
     ),
   );
 

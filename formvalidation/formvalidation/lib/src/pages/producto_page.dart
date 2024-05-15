@@ -1,5 +1,5 @@
 
-// ignore_for_file: prefer_const_constructors, unused_local_variable, unnecessary_null_comparison, use_key_in_widget_constructors, avoid_print, unused_field, avoid_init_to_null, avoid_unnecessary_containers, sized_box_for_whitespace, no_leading_underscores_for_local_identifiers
+// ignore_for_file: prefer_const_constructors, unused_local_variable, unnecessary_null_comparison, use_key_in_widget_constructors, avoid_print, unused_field, avoid_init_to_null, avoid_unnecessary_containers, sized_box_for_whitespace, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -273,53 +273,6 @@ class _ProductoPageState extends State<ProductoPage> {
     );
   } 
 
-  // Metodo para controlar el submit 
-  void _submit() {
-    // una forma
-    // Verificamos que el formulario es valido
-    // if ( formKey.currentState!.validate() ) {
-    //   // Cuando el formulario es valido 
-    // }
-
-    // Otra forma
-    if ( !formKey.currentState!.validate() ) return;
-
-    // Todo el codigo de aqui abajo solamente sucedera cuandoe el formulario sea valido
-    // disparamos los onsave
-    // Esto dispara todos los text form field que esten en el formulario
-    formKey.currentState!.save();
-    
-    // Guadamos el estado
-    setState(() {
-      _guardando = true;
-    });
-
-    // print( producto.titulo );
-    // print( producto.valor );
-    // print( producto.fotoUrl );
-
-    // Creamos un producto porque no existe
-    if( producto.id == '' ) {
-      // print("Nuevo");
-      productosProvider.crearProducto( producto );
-
-      mostrarSnackbar( 'Registro guardado' );
-    // editamos el producto porque ya existe
-    } else {
-      // print("editar");
-      productosProvider.editarProducto( producto );
-
-      mostrarSnackbar( 'Registro actualizado' );
-    }
-
-    setState(() {
-      _guardando = false;
-    });
-
-    // volvemos al listado de los productos
-    Navigator.pop(context);
-  }
-
   // Para mostrar el mensaje cuando se guarda
   void mostrarSnackbar ( String mensaje ){
     final snackbar = SnackBar(
@@ -376,5 +329,53 @@ class _ProductoPageState extends State<ProductoPage> {
   _tomarFoto() {
     // en lugar de gallery se sellecionara camera
   }
+
+  // Metodo para controlar el submit 
+  void _submit() async {
+    // una forma
+    // Verificamos que el formulario es valido
+    // if ( formKey.currentState!.validate() ) {
+    //   // Cuando el formulario es valido 
+    // }
+
+    // Otra forma
+    if ( !formKey.currentState!.validate() ) return;
+
+    // Todo el codigo de aqui abajo solamente sucedera cuandoe el formulario sea valido
+    // disparamos los onsave
+    // Esto dispara todos los text form field que esten en el formulario
+    formKey.currentState!.save();
+    
+    // Guadamos el estado
+    setState(() {
+      _guardando = true;
+    });
+
+    // print( producto.titulo );
+    // print( producto.valor );
+    // print( producto.fotoUrl );
+
+    // Creamos un producto porque no existe
+    if( producto.id == '' ) {
+      print(foto?.path);
+      await productosProvider.crearProducto(producto, foto);
+
+      mostrarSnackbar( 'Registro guardado' );
+    // editamos el producto porque ya existe
+    } else {
+      // print("editar");
+      productosProvider.editarProducto( producto );
+
+      mostrarSnackbar( 'Registro actualizado' );
+    }
+
+    setState(() {
+      _guardando = false;
+    });
+
+    // volvemos al listado de los productos
+    Navigator.pop(context);
+  }
+
 
 }

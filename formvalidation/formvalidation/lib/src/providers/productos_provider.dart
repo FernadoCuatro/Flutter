@@ -1,5 +1,8 @@
 // Este archivo se va a encargar de hacer todas las interacciones en la base de datos
 // ignore_for_file: avoid_print, unnecessary_null_comparison, unused_local_variable, avoid_function_literals_in_foreach_calls, unused_import, unused_field
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:formvalidation/src/models/producto_model.dart';
 // importamos http
 import 'package:http/http.dart' as http;
@@ -11,9 +14,56 @@ class ProductosProvider {
   // Url de la base de datos de firabase
   final String _url = 'https://pupuseria-chilin-default-rtdb.firebaseio.com';
   
-  // Agregamos un producto a la base de datos
-  Future<bool> crearProducto(ProductoModel producto) async {
+  // 
+  Future<String> subirImagen(File imagen, String idCategoria) async {
     try {
+      // Obtener el nombre real del archivo
+      String fileName = imagen.path.split('/').last;
+
+      // Determinar la ruta de almacenamiento basada en idCategoria
+      String folderPath;
+      switch (idCategoria) {
+        case '1':
+        case '2':
+          folderPath = 'Productos/Imagenes/Pupusas';
+          break;
+        case '3':
+          folderPath = 'Productos/Imagenes/Postres';
+          break;
+        case '4':
+          folderPath = 'Productos/Imagenes/Bebidas Heladas';
+          break;
+        default:
+          // Ruta por defecto si no coincide con ningún idCategoria
+          folderPath = 'Productos/Imagenes/Pupusas'; 
+      }
+
+      // Crear una referencia a la ubicación donde se almacenará la imagen
+      Reference storageReference = FirebaseStorage.instance.ref().child('$folderPath/$fileName');
+
+      // Subir la imagen
+      UploadTask uploadTask     = storageReference.putFile(imagen);
+      TaskSnapshot taskSnapshot = await uploadTask;
+
+      // Obtener la URL de la imagen subida
+      String url = await taskSnapshot.ref.getDownloadURL();
+      return url;
+    } catch (e) {
+      print("Error al subir la imagen: $e");
+      return '';
+    }
+  }
+
+  // Agregamos un producto a la base de datos
+  Future<bool> crearProducto(ProductoModel producto, File? imagen) async {
+    try {
+      print(imagen);
+      
+      // Subir la imagen y obtener la URL si existe una imagen
+      if (imagen != null) {
+        producto.imagen = await subirImagen(imagen, producto.idCategoria);
+      }
+
       // Referencia a la colección "Productos" en Firestore
       CollectionReference productosRef = FirebaseFirestore.instance.collection('Productos');
 
@@ -22,7 +72,7 @@ class ProductosProvider {
         'descripcion'    : producto.descripcion,
         'estado'         : producto.estado,
         'idCategoria'    : producto.idCategoria,
-        'imagen'         : producto.imagen, // Añade la imagen si es necesario
+        'imagen'         : producto.imagen,
         'isFeatured'     : producto.isFeatured,
         'nombre'         : producto.nombre,
         'nombreCategoria': producto.nombreCategoria,
