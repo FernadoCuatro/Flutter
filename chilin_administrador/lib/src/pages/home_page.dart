@@ -19,8 +19,18 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar:AppBar(
-        // Obteniendo la informacion del bloc aqui tambien
-        title: Text('Hola, Administrador')
+        leading: Icon(Icons.home_rounded), 
+        title: Text('Hola, Fernando'),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: Image.asset(
+              'assets/chilin.png',
+              width: 130.0,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ],
       ),
 
       // Text('Email: ${ bloc?.email } '),
@@ -96,6 +106,7 @@ class HomePage extends StatelessWidget {
       },
 
       child: Card(
+        elevation: 4.0,
         margin: EdgeInsets.only(left: 30, bottom: 20, right: 30),
         child: ListTile(
           onTap: () {
@@ -250,12 +261,58 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _crearBoton( context ) {
-    return FloatingActionButton(
-      child: Icon( Icons.add ),
-      // Cambiamos el color a la aplicacion
-      backgroundColor: Colors.black,
-      foregroundColor: Colors.white,
-      onPressed: () => Navigator.pushNamed(context, 'producto'),
+    return Container(
+      margin: EdgeInsets.only(left: 30),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            FloatingActionButton(
+              onPressed: () => {},
+              child: Icon(Icons.assignment_returned_rounded),
+              // Cambiamos el color a la aplicacion
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+              heroTag: "Pedidos",
+            ),
+            FloatingActionButton(
+              onPressed: () => Navigator.pushNamed(context, 'producto'),
+              child: Icon(Icons.add),
+              // Cambiamos el color a la aplicacion
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
+              heroTag: "Agregar",
+            ),
+          ]
+      ),
     );
   }
+
+//  Widget _crearBoton(BuildContext context) {
+//     return Container(
+//       margin: EdgeInsets.only(left: 30),
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//         children: [
+//           FloatingActionButton(
+//             child: Icon(Icons.edit),
+//             backgroundColor: Colors.red,
+//             foregroundColor: Colors.white,
+//             onPressed: () {
+//               // Lógica para el segundo botón (editar) aquí
+//             },
+//           ),
+//           FloatingActionButton(
+//             child: Icon(Icons.add),
+//             // Cambiamos el color a la aplicacio
+//             backgroundColor: Colors.black,
+//             foregroundColor: Colors.white,
+//             onPressed: () => Navigator.pushNamed(context, 'producto'),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+
+
 }
