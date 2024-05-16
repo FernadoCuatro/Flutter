@@ -14,7 +14,7 @@ class ProductosProvider {
   // Url de la base de datos de firabase
   final String _url = 'https://pupuseria-chilin-default-rtdb.firebaseio.com';
   
-  // 
+  // Future para subir las imagenes con todo 
   Future<String> subirImagen(File imagen, String idCategoria) async {
     try {
       // Obtener el nombre real del archivo
