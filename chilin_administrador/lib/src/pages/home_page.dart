@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, use_key_in_widget_constructors, avoid_unnecessary_containers
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:chilin_administrador/src/models/producto_model.dart';
 import 'package:chilin_administrador/src/providers/productos_provider.dart';
@@ -26,7 +27,6 @@ class HomePage extends StatelessWidget {
       // Divider(),
       // Text('Password: ${ bloc?.password }')
   
-
       body: _crearListado(),
 
       // Boto para crear un nuevo producto
@@ -36,26 +36,40 @@ class HomePage extends StatelessWidget {
 
   // Listamos la informacion desde base de datos
   Widget _crearListado() {
-    return FutureBuilder(
-      future: productosProvider.cargarProductos(),
-      builder: (BuildContext context, AsyncSnapshot<List<ProductoModel>> snapshot) {
-        // Validacion por si tiene los datos cargados o no
-        if( snapshot.hasData ) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('Productos').snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        // Validación por si tiene los datos cargados o no
+        if (snapshot.hasData) {
+          final productos = snapshot.data!.docs.map((doc) => ProductoModel(
+            id             : doc.id,
+            descripcion    : doc['descripcion'],
+            estado         : doc['estado'],
+            idCategoria    : doc['idCategoria'],
+            imagen         : doc['imagen'],
+            isFeatured     : doc['isFeatured'],
+            nombre         : doc['nombre'],
+            nombreCategoria: doc['nombreCategoria'],
+            precio         : doc['precio'],
+            tipoProducto   : doc['tipoProducto'],
+          )).toList();
 
-          final productos = snapshot.data;
           return ListView.builder(
-            itemCount: productos!.length,
-            itemBuilder: ( context, i ) => _crearItem( context, productos[i] ),
+            itemCount: productos.length,
+            itemBuilder: (context, i) => _crearItem(context, productos[i]),
           );
-
+        } else if (snapshot.hasError) {
+          // Retornar un widget de error si ocurre un error en el stream
+          return Center(child: Text('Error: ${snapshot.error}'));
         } else {
-          // Retornamos un indicador de carga
-          return Center( child: CircularProgressIndicator() );
+          // Retornamos un indicador de carga mientras se obtienen los datos
+          return Center(child: CircularProgressIndicator());
         }
       },
     );
   }
-  
+
+
   // Creamos los items individuales 
   Widget _crearItem( context, ProductoModel producto ) {
     // el Dismissible lo agregamos para eliminar algun producto

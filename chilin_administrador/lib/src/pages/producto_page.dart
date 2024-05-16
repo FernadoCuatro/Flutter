@@ -72,7 +72,7 @@ class _ProductoPageState extends State<ProductoPage> {
                 children: [
                   _mostrarFoto(),
                   _crearNombre(),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   _crearDescripcion(),
 
                   Row(
@@ -84,9 +84,9 @@ class _ProductoPageState extends State<ProductoPage> {
                     ],
                   ),
 
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   _seleccionarCategoria(),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   
                   _crearDisponible(),
 
@@ -128,8 +128,8 @@ class _ProductoPageState extends State<ProductoPage> {
     // El TextFormField trabaja directamente con un formulario
     return Container(
       // Altura definida
-      height: 80, 
-      color: Colors.grey[100],
+      height: 100, 
+      // color: Colors.grey[100],
       child: SingleChildScrollView(
         child: TextFormField(
           // inicializamos el valor con la propiedad de la clase
@@ -142,7 +142,7 @@ class _ProductoPageState extends State<ProductoPage> {
             ),
           ),
           maxLines: null, // Esto permite que el campo sea multilinea
-          // El onsave se ejecuta luego del validator
+          // El onsave se ejecuta luego del validator 
           onSaved: ( value ) => producto.descripcion = value!,
           // Vamos a crear las validaciones
           validator: (value) {
@@ -194,7 +194,7 @@ class _ProductoPageState extends State<ProductoPage> {
       1: "Tradicionales",
       2: "Especialidades",
       3: "Postres",
-      4: "Bebidas Heladas",
+      4: "Bebidas",
     };
 
     // print( producto.idCategoria );
@@ -230,7 +230,7 @@ class _ProductoPageState extends State<ProductoPage> {
       
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.green,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
 
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
@@ -290,45 +290,45 @@ class _ProductoPageState extends State<ProductoPage> {
 
     if (pickedFile != null) {
       setState(() {
-        foto = File(pickedFile.path); // Almacenar la foto seleccionada en la propiedad foto
+        foto = foto = File(pickedFile.path); // No necesitas convertirlo a File
       });
     }
   }
 
-
   // Widget para mostrar la foto seleccionada
   Widget _mostrarFoto() {
-    // print(foto?.path);
-
-    // print( producto.fotoUrl );
-    if( producto.imagen == '' ) {
-      // Si no tenemos foto usamos una foto asignada
-
-      if(foto?.path != null) {
-        return Image.network(
-            foto!.path,
-            height: 300.0,
-            fit: BoxFit.cover,
-          );
-      } else {
-        return Image(
-          image: AssetImage('assets/no-image.png'),
-          height: 300.0,
-          fit: BoxFit.cover,
-        );
-      }      
-    } else {
+    if (foto != null) {
+      return Image.file(
+        // Usar la ruta directamente del objeto pickedFile
+        File(foto!.path),
+        height: 300.0,
+        fit: BoxFit.cover,
+      );
+    } else if ( producto.imagen != '' ) {
       return Image.network(
         producto.imagen,
         height: 300.0,
         width: 300.0,
         fit: BoxFit.cover,
       );
+    }else {
+      return Image.asset(
+        'assets/no-image.png',
+        height: 300.0,
+        fit: BoxFit.cover,
+      );
     }
   }
 
-  _tomarFoto() {
-    // en lugar de gallery se sellecionara camera
+  _tomarFoto() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      setState(() {
+        foto = foto = File(pickedFile.path); // No necesitas convertirlo a File
+      });
+    }
   }
 
   // Metodo para controlar el submit 

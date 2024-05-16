@@ -1,5 +1,5 @@
 // Este archivo se va a encargar de hacer todas las interacciones en la base de datos
-// ignore_for_file: avoid_print, unnecessary_null_comparison, unused_local_variable, avoid_function_literals_in_foreach_calls, unused_import, unused_field
+// ignore_for_file: avoid_print, unnecessary_null_comparison, unused_local_variable, avoid_function_literals_in_foreach_calls, unused_import, unused_field, unrelated_type_equality_checks
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -57,8 +57,6 @@ class ProductosProvider {
   // Agregamos un producto a la base de datos
   Future<bool> crearProducto(ProductoModel producto, File? imagen) async {
     try {
-      print(imagen);
-      
       // Subir la imagen y obtener la URL si existe una imagen
       if (imagen != null) {
         producto.imagen = await subirImagen(imagen, producto.idCategoria);
@@ -66,6 +64,29 @@ class ProductosProvider {
 
       // Referencia a la colección "Productos" en Firestore
       CollectionReference productosRef = FirebaseFirestore.instance.collection('Productos');
+
+      // Validar el tipo de producto y los atributos según la categoría
+      String? tipoProducto;
+      List<Map<String, dynamic>>? attributosProducto;
+
+      if (producto.idCategoria == '1' || producto.idCategoria == '2') {
+        // Para categoría 1 o 2
+        tipoProducto = 'ProductType.variable';
+
+        // Agregar atributos adicionales si es necesario
+        attributosProducto = [
+          {
+            'nombre': 'Tipo de Masa',
+            'valor': ['Arroz', 'Maiz']
+          }
+        ];
+      } else if (producto.idCategoria == '3' || producto.idCategoria == '4') {
+        // Para categoría 3 o 4
+        tipoProducto = 'ProductType.single';
+
+        // No es necesario agregar atributos adicionales
+        attributosProducto = null;
+      }
 
       // Agregamos un nuevo documento con los datos del producto
       await productosRef.add({
@@ -77,15 +98,10 @@ class ProductosProvider {
         'nombre'         : producto.nombre,
         'nombreCategoria': producto.nombreCategoria,
         'precio'         : producto.precio,
-        'tipoProducto'   : 'ProductType.single',
+        'tipoProducto'   : tipoProducto,
 
-        // Mapa adicional después de 'tipoProducto'
-        'attributosProducto': [
-          {
-            'nombre': 'Tipo de Masa',
-            'valor': ['Arroz', 'Maiz']
-          }
-        ]
+        // Agregar atributos del producto si existen
+        if (attributosProducto != null) 'attributosProducto': attributosProducto
       });
 
       return true;
@@ -95,6 +111,8 @@ class ProductosProvider {
       return false;
     }
   }
+
+
 
   // Editamos un producto
   Future<bool> editarProducto(ProductoModel producto) async {
