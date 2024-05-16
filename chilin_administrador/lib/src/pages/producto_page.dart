@@ -383,6 +383,4 @@ class _ProductoPageState extends State<ProductoPage> {
     // volvemos al listado de los productos
     Navigator.pop(context);
   }
-
-
 }

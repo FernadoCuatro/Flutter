@@ -267,7 +267,7 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             FloatingActionButton(
-              onPressed: () => {},
+              onPressed: () => Navigator.pushNamed(context, 'pedidos'),
               child: Icon(Icons.assignment_returned_rounded),
               // Cambiamos el color a la aplicacion
               backgroundColor: Colors.red,
