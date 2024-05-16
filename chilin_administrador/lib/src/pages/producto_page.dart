@@ -85,7 +85,14 @@ class _ProductoPageState extends State<ProductoPage> {
                   ),
 
                   SizedBox(height: 20),
-                  _seleccionarCategoria(),
+                  Row(
+                    children: [
+                      // 50% de la pantalla
+                      Expanded( flex: 5, child: Text('Seleccione Categoría:', textAlign: TextAlign.center,) ),
+                      // 50% de la pantalla
+                      Expanded( flex: 5,  child: _seleccionarCategoria() ),
+                    ],
+                  ),
                   SizedBox(height: 20),
                   
                   _crearDisponible(),
@@ -122,7 +129,6 @@ class _ProductoPageState extends State<ProductoPage> {
       },
     );
   }
-
 
   Widget _crearDescripcion() {
     // El TextFormField trabaja directamente con un formulario

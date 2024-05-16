@@ -69,7 +69,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-
   // Creamos los items individuales 
   Widget _crearItem( context, ProductoModel producto ) {
     // el Dismissible lo agregamos para eliminar algun producto
