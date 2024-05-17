@@ -36,9 +36,8 @@ class PedidosPage extends StatelessWidget {
     );
   }
 
-
   // Listamos la informacion desde base de datos
-Widget _crearListado() {
+  Widget _crearListado() {
   return StreamBuilder<QuerySnapshot>(
     stream: FirebaseFirestore.instance.collection('Usuarios').snapshots(),
     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -95,9 +94,7 @@ Widget _crearListado() {
       }
     },
   );
-}
-
-
+  }
 
   // Creamos el listado de los datos
   Widget _crearItem( context, PedidoModel pedido) {
