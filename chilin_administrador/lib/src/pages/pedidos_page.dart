@@ -31,8 +31,7 @@ class PedidosPage extends StatelessWidget {
           SizedBox(width: 10)
         ],
       ),
-
-
+      
       body: Text('Vamos aqui'),
     );
   }
