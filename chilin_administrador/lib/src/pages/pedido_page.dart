@@ -1,6 +1,8 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations
 
+import 'package:chilin_administrador/src/models/pedido_detalle_model.dart';
 import 'package:chilin_administrador/src/models/pedido_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PedidoPage extends StatefulWidget {
@@ -41,10 +43,10 @@ class _PedidoPageState extends State<PedidoPage> {
                   child: pedidoData!.fotoPerfil.isNotEmpty 
                     ? ClipOval(
                         child: Container(
-                          color: Colors.grey[200], // Fondo color gris claro
+                          color: Colors.grey[200], 
                           child: Image.network(
                             pedidoData.fotoPerfil,
-                            fit: BoxFit.contain, // Ajusta la imagen para cubrir todo el contenedor
+                            fit: BoxFit.contain, 
                           ),
                         )
                       )
@@ -74,7 +76,7 @@ class _PedidoPageState extends State<PedidoPage> {
                           margin: EdgeInsets.only(top: 3.0), 
                           child: Row(
                             children: [
-                              Icon(Icons.phone),
+                              Icon(Icons.phone, color: Colors.green),
                               SizedBox(width: 8.0),
                               Text(pedidoData.telefono, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0, color: Colors.green)),
                             ],
@@ -106,21 +108,122 @@ class _PedidoPageState extends State<PedidoPage> {
                 ),
               ],
             )
-          )
+          ),
+
+          // Espacio para el cuerpo de la factura
+          Expanded(
+            child: StreamBuilder<DocumentSnapshot>(
+              stream: FirebaseFirestore.instance.collection('Usuarios').doc(pedidoData.idCliente).collection('Ordenes').doc(pedidoData.idOrden).snapshots(),
+              builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  var doc = snapshot.data!;
+                  
+                  // Parseando la fecha correctamente
+                  final fechaOrdenTimestamp = doc['fechaOrden'] as Timestamp;
+                  final fechaOrden          = fechaOrdenTimestamp.toDate();
+                  
+                  // Mapeando los items del pedido
+                  final itemsList = (doc['items'] as List<dynamic>).map((item) {
+                    return Item(
+                      atributos: item['atributos'] != null ? Map<String, String>.from(item['atributos']) : null,
+                      cantidad: item['cantidad'],
+                      image   : item['image'],
+                      precio  : item['precio'],
+                      titulo  : item['titulo'],
+                    );
+                  }).toList();
+
+                  final pedido = PedidoDetalleModel(
+                    estado    : doc['estado'],
+                    fechaOrden: fechaOrden,
+                    id        : doc.id,
+                    items     : itemsList,
+                    metodoPago: doc['metodoPago'],
+                    montoTotal: doc['montoTotal'],
+                  );
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Fecha de orden: '),
+                          Text('${pedido.fechaOrden}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0)),   
+                        ],
+                      ),
+                      SizedBox(height: 5),
+
+                      // ListView.builder para mostrar la lista de artículos
+                      Expanded(
+                        child: SingleChildScrollView(
+                          physics: NeverScrollableScrollPhysics(),
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxHeight: 200, // Establece aquí la altura máxima deseada
+                            ),
+                            child: ListView.builder(
+                              itemCount: pedido.items.length,
+                              itemBuilder: (context, index) {
+                                final item = pedido.items[index];
+                                return Card(
+                                  child: ListTile(
+                                    leading: Image.network(item.image, width: 60, height: 100, fit: BoxFit.cover),
+                                    title: Text(item.titulo),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Cantidad: ${item.cantidad}'),
+                                        if (item.atributos != null)
+                                          Text('${item.atributos!.entries.map((e) => '${e.key}: ${e.value}').join(', ')}'),
+                                        Row(
+                                          children: [
+                                            Text('Precio: \$${item.precio.toStringAsFixed(2)}'),
+                                            Spacer(),
+                                            Text('Total: \$${(double.parse(item.precio.toStringAsFixed(2)) * item.cantidad).toStringAsFixed(2)}'),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+
+
+                      Text('Método de Pago: ${pedido.metodoPago}'),
+                      Text('Monto Total: \$${pedido.montoTotal.toStringAsFixed(2)}'),
 
 
 
+                    ],
+                  );
+
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
+          ),
 
 
 
-
-
-
-
-
-
-
-
+          // Botón finalizar pedido
+          SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: ElevatedButton(
+              onPressed: () {
+                // Agrega aquí la lógica para finalizar el pedido
+              },
+              child: Text('Finalizar pedido'),
+            ),
+          ),
 
         ],
       ),
