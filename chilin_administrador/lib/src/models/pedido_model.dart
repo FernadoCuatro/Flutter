@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 PedidoModel pedidoModelFromJson(String str) => PedidoModel.fromJson(json.decode(str));
@@ -12,10 +11,9 @@ class PedidoModel {
   String apellido;
   String fotoPerfil;
   String telefono;
-
   String idOrden;
   Timestamp? fechaOrden;
-  List<Map<String, dynamic>>? detalleOrden;
+  List<Map<String, dynamic>> detalleOrden; // Cambio aquí
   String metodoPago;
   num montoTotal;
   String estado;
@@ -26,10 +24,9 @@ class PedidoModel {
     this.apellido     = '',
     this.fotoPerfil   = '',
     this.telefono     = '',
-
     this.idOrden      = '',
     this.fechaOrden,
-    this.detalleOrden,
+    this.detalleOrden = const [], // Cambio aquí
     this.metodoPago   = '',
     this.montoTotal   = 0,
     this.estado       = '',
@@ -43,23 +40,25 @@ class PedidoModel {
     telefono    : json["telefono"],
     idOrden     : json["idOrden"],
     fechaOrden  : json["fechaOrden"],
-    detalleOrden: List<Map<String, dynamic>>.from(json["detalleOrden"].map((x) => x)),
+    detalleOrden: json["detalleOrden"] != null 
+                    ? List<Map<String, dynamic>>.from(json["detalleOrden"].map((x) => x)) 
+                    : [], // Cambio aquí
     metodoPago  : json["metodoPago"],
     montoTotal  : json["montoTotal"].toDouble(),
-    estado      : json["estado"]
+    estado      : json["estado"],
   );
 
   Map<String, dynamic> toJson() => {
-        "idCliente": idCliente,
-        "nombre": nombre,
-        "apellido": apellido,
-        "fotoPerfil": fotoPerfil,
-        "telefono": telefono,
-        "idOrden": idOrden,
-        "fechaOrden": fechaOrden,
-        "detalleOrden": List<dynamic>.from(detalleOrden!.map((x) => x)),
-        "metodoPago": metodoPago,
-        "montoTotal": montoTotal,
-        "estado": estado,
-      };
+    "idCliente": idCliente,
+    "nombre": nombre,
+    "apellido": apellido,
+    "fotoPerfil": fotoPerfil,
+    "telefono": telefono,
+    "idOrden": idOrden,
+    "fechaOrden": fechaOrden,
+    "detalleOrden": List<dynamic>.from(detalleOrden.map((x) => x)), // Cambio aquí
+    "metodoPago": metodoPago,
+    "montoTotal": montoTotal,
+    "estado": estado,
+  };
 }

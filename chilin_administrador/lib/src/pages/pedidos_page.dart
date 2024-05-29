@@ -36,68 +36,82 @@ class PedidosPage extends StatelessWidget {
     );
   }
 
-  // Listamos la informacion desde base de datos
   Widget _crearListado() {
-  return StreamBuilder<QuerySnapshot>(
-    stream: FirebaseFirestore.instance.collection('Usuarios').snapshots(),
-    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-      // Validación por si tiene los datos cargados o no
-      if (snapshot.hasData) {
-        final pedidos = snapshot.data!.docs.map((doc) async {
-          final usuario = PedidoModel(
-            idCliente : doc.id,
-            nombre    : doc['nombre'],
-            apellido  : doc['apellido'],
-            fotoPerfil: doc['fotoPerfil'],
-            telefono  : doc['numeroTelefono'],
+    return FutureBuilder<QuerySnapshot>(
+      future: FirebaseFirestore.instance.collection('Usuarios').get(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+        if (snapshot.hasData) {
+          final usuarios = snapshot.data!.docs;
+
+          return FutureBuilder<List<PedidoModel>>(
+            future: _obtenerPedidosDeUsuarios(usuarios),
+            builder: (BuildContext context, AsyncSnapshot<List<PedidoModel>> pedidosSnapshot) {
+              if (pedidosSnapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (pedidosSnapshot.hasError) {
+                return Center(child: Text('Error: ${pedidosSnapshot.error}'));
+              }
+              if (pedidosSnapshot.hasData && pedidosSnapshot.data!.isNotEmpty) {
+                final pedidos = pedidosSnapshot.data!;
+                return ListView.builder(
+                  itemCount: pedidos.length,
+                  itemBuilder: (context, i) => _crearItem(context, pedidos[i]),
+                );
+              } else {
+                return Center(child: Text('No hay pedidos disponibles.'));
+              }
+            },
           );
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+  }
 
-          final ordenesSnapshot = await FirebaseFirestore.instance
-            .collection('Usuarios')
-            .doc(usuario.idCliente)
-            .collection('Ordenes')
-            .get();
+  Future<List<PedidoModel>> _obtenerPedidosDeUsuarios(List<DocumentSnapshot> usuarios) async {
+    List<PedidoModel> pedidos = [];
 
-        ordenesSnapshot.docs.forEach((orden) {
-          usuario.idOrden = orden.id;
-          usuario.fechaOrden = orden['fechaOrden'];
-          usuario.metodoPago = orden['metodoPago'];
-          usuario.montoTotal = orden['montoTotal'];
-          usuario.estado = orden['estado'];
-        });
+    for (var usuarioDoc in usuarios) {
+      final ordenesSnapshot = await FirebaseFirestore.instance
+        .collection('Usuarios')
+        .doc(usuarioDoc.id)
+        .collection('Ordenes')
+        .get();
 
-          // print(usuario.idOrden);
-          return usuario;
-        });
-
-        return FutureBuilder<List<PedidoModel>>(
-          future: Future.wait(pedidos),
-          builder: (BuildContext context, AsyncSnapshot<List<PedidoModel>> pedidosSnapshot) {
-            if (pedidosSnapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if (pedidosSnapshot.hasError) {
-              return Center(child: Text('Error: ${pedidosSnapshot.error}'));
-            }
-            return ListView.builder(
-              itemCount: pedidosSnapshot.data!.length,
-              itemBuilder: (context, i) => _crearItem(context, pedidosSnapshot.data![i]),
+      if (ordenesSnapshot.docs.isNotEmpty) {
+        for (var orden in ordenesSnapshot.docs) {
+          if (orden['estado'] == 'OrderStatus.pending') {
+            final pedido = PedidoModel(
+              idCliente : usuarioDoc.id,
+              nombre    : usuarioDoc['nombre'],
+              apellido  : usuarioDoc['apellido'],
+              fotoPerfil: usuarioDoc['fotoPerfil'],
+              telefono  : usuarioDoc['numeroTelefono'],
+              idOrden   : orden.id,
+              fechaOrden: orden['fechaOrden'],
+              metodoPago: orden['metodoPago'],
+              montoTotal: orden['montoTotal'],
+              estado    : orden['estado'],
             );
-          },
-        );
-      } else if (snapshot.hasError) {
-        // Retornar un widget de error si ocurre un error en el stream
-        return Center(child: Text('Error: ${snapshot.error}'));
-      } else {
-        // Retornamos un indicador de carga mientras se obtienen los datos
-        return Center(child: CircularProgressIndicator());
+            pedidos.add(pedido);
+          }
+        }
       }
-    },
-  );
+    }
+
+    return pedidos;
   }
 
   // Creamos el listado de los datos
-  Widget _crearItem( context, PedidoModel pedido) {
+  Widget _crearItem(context, PedidoModel pedido) {
     return Card(
       elevation: 4.0,
       margin: EdgeInsets.only(left: 30, bottom: 20, right: 30),
@@ -122,11 +136,10 @@ class PedidosPage extends StatelessWidget {
                   SizedBox(width: 5),
                   Text(
                     '${pedido.nombre.toUpperCase()} ${pedido.apellido.toUpperCase()}',
-                    style: TextStyle( fontWeight: FontWeight.bold,  ),
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-
               Row(
                 children: [
                   Expanded(
@@ -134,13 +147,13 @@ class PedidosPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Total de productos: 00'),
+                        Text('Metodo de pago: ${pedido.metodoPago}'),
                         Row(
                           children: [
-                            Text('Estado del pedido: En espera '),
-                            Icon( Icons.circle_rounded, size: 25.0, color: Colors.red ),
+                            Text('Estado del pedido: Pendiente '),
+                            Icon(Icons.circle_rounded, size: 25.0, color: Colors.red),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -149,19 +162,21 @@ class PedidosPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text( '\$${pedido.montoTotal.toStringAsFixed(2)}', style: TextStyle( fontWeight: FontWeight.bold, fontSize: 40.0 )),
-                      ]
-                     )
+                        Text(
+                          '\$${pedido.montoTotal.toStringAsFixed(2)}',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40.0),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-
             ],
           ),
         ),
-
       ),
     );
   }
 
+  
 }
