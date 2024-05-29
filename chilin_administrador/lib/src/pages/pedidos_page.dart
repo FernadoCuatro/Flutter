@@ -18,11 +18,8 @@ class PedidosPage extends StatelessWidget {
             child: Text(
               'Pedidos finalizados',
               style: TextStyle(
-                // Color del texto
                 color: Colors.white, 
-                // Estilo del texto (negrita)
                 fontWeight: FontWeight.bold, 
-                // Tamaño del texto
                 fontSize: 14, 
               ),
             ),
@@ -76,6 +73,7 @@ class PedidosPage extends StatelessWidget {
     );
   }
 
+  // Obtenemos los pedidos de los usuarios
   Future<List<PedidoModel>> _obtenerPedidosDeUsuarios(List<DocumentSnapshot> usuarios) async {
     List<PedidoModel> pedidos = [];
 
@@ -95,6 +93,9 @@ class PedidosPage extends StatelessWidget {
               apellido  : usuarioDoc['apellido'],
               fotoPerfil: usuarioDoc['fotoPerfil'],
               telefono  : usuarioDoc['numeroTelefono'],
+              email     : usuarioDoc['email'],
+              username  : usuarioDoc['username'],
+              
               idOrden   : orden.id,
               fechaOrden: orden['fechaOrden'],
               metodoPago: orden['metodoPago'],
@@ -177,6 +178,5 @@ class PedidosPage extends StatelessWidget {
       ),
     );
   }
-
   
 }

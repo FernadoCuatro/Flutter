@@ -286,33 +286,4 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
-//  Widget _crearBoton(BuildContext context) {
-//     return Container(
-//       margin: EdgeInsets.only(left: 30),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           FloatingActionButton(
-//             child: Icon(Icons.edit),
-//             backgroundColor: Colors.red,
-//             foregroundColor: Colors.white,
-//             onPressed: () {
-//               // Lógica para el segundo botón (editar) aquí
-//             },
-//           ),
-//           FloatingActionButton(
-//             child: Icon(Icons.add),
-//             // Cambiamos el color a la aplicacio
-//             backgroundColor: Colors.black,
-//             foregroundColor: Colors.white,
-//             onPressed: () => Navigator.pushNamed(context, 'producto'),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-
-
 }

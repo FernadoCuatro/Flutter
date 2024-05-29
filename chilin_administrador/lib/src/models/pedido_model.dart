@@ -11,9 +11,12 @@ class PedidoModel {
   String apellido;
   String fotoPerfil;
   String telefono;
+  String email;
+  String username;
+
   String idOrden;
   Timestamp? fechaOrden;
-  List<Map<String, dynamic>> detalleOrden; // Cambio aquí
+  List<Map<String, dynamic>> detalleOrden;
   String metodoPago;
   num montoTotal;
   String estado;
@@ -24,9 +27,11 @@ class PedidoModel {
     this.apellido     = '',
     this.fotoPerfil   = '',
     this.telefono     = '',
+    this.email        = '',
+    this.username     = '',
     this.idOrden      = '',
     this.fechaOrden,
-    this.detalleOrden = const [], // Cambio aquí
+    this.detalleOrden = const [],
     this.metodoPago   = '',
     this.montoTotal   = 0,
     this.estado       = '',
@@ -38,27 +43,33 @@ class PedidoModel {
     apellido    : json["apellido"],
     fotoPerfil  : json["fotoPerfil"],
     telefono    : json["telefono"],
+    email       : json["email"],
+    username    : json["username"],
+
     idOrden     : json["idOrden"],
     fechaOrden  : json["fechaOrden"],
     detalleOrden: json["detalleOrden"] != null 
                     ? List<Map<String, dynamic>>.from(json["detalleOrden"].map((x) => x)) 
-                    : [], // Cambio aquí
+                    : [],
     metodoPago  : json["metodoPago"],
     montoTotal  : json["montoTotal"].toDouble(),
     estado      : json["estado"],
   );
 
   Map<String, dynamic> toJson() => {
-    "idCliente": idCliente,
-    "nombre": nombre,
-    "apellido": apellido,
-    "fotoPerfil": fotoPerfil,
-    "telefono": telefono,
-    "idOrden": idOrden,
-    "fechaOrden": fechaOrden,
-    "detalleOrden": List<dynamic>.from(detalleOrden.map((x) => x)), // Cambio aquí
-    "metodoPago": metodoPago,
-    "montoTotal": montoTotal,
-    "estado": estado,
+    "idCliente"   : idCliente,
+    "nombre"      : nombre,
+    "apellido"    : apellido,
+    "fotoPerfil"  : fotoPerfil,
+    "telefono"    : telefono,
+    "email"       : email,
+    "username"    : username,
+    
+    "idOrden"     : idOrden,
+    "fechaOrden"  : fechaOrden,
+    "detalleOrden": List<dynamic>.from(detalleOrden.map((x) => x)),
+    "metodoPago"  : metodoPago,
+    "montoTotal"  : montoTotal,
+    "estado"      : estado,
   };
 }
