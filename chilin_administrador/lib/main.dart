@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, depend_on_referenced_packages
 
+import 'package:chilin_administrador/src/pages/pedido_page.dart';
 import 'package:chilin_administrador/src/pages/pedidos_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chilin_administrador/src/bloc/provider.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
           'home'    : ( (context) => HomePage() ),
           'producto': ( (context) => ProductoPage() ),
           'pedidos' : ( (context) => PedidosPage() ),
+          'pedido' : ( (context) => PedidoPage() ),
         },
         // Vamos a poner un colorcito
         theme: ThemeData(

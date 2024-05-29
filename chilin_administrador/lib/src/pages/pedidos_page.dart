@@ -117,7 +117,7 @@ class PedidosPage extends StatelessWidget {
       margin: EdgeInsets.only(left: 30, bottom: 20, right: 30),
       child: ListTile(
         onTap: () {
-          // Navigator.pushNamed(context, 'producto', arguments: producto);
+          Navigator.pushNamed(context, 'pedido', arguments: pedido);
         },
         title: Container(
           padding: EdgeInsets.all(0),
