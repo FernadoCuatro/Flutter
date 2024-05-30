@@ -160,7 +160,7 @@ class _PedidoPageState extends State<PedidoPage> {
                           physics: NeverScrollableScrollPhysics(),
                           child: Container(
                             constraints: BoxConstraints(
-                              maxHeight: 200, // Establece aquí la altura máxima deseada
+                              maxHeight: 600,
                             ),
                             child: ListView.builder(
                               itemCount: pedido.items.length,
@@ -193,12 +193,36 @@ class _PedidoPageState extends State<PedidoPage> {
                         ),
                       ),
 
-
-                      Text('Método de Pago: ${pedido.metodoPago}'),
-                      Text('Monto Total: \$${pedido.montoTotal.toStringAsFixed(2)}'),
-
-
-
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10, left: 10),
+                        child: Row(
+                          children: [
+                            Text('Método de Pago: ${pedido.metodoPago}'),
+                            Spacer(),
+                            RichText(
+                              text: TextSpan(
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 17
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: 'Monto Total: ',
+                                  ),
+                                  TextSpan(
+                                    text: '\$${pedido.montoTotal.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 30
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      )
                     ],
                   );
 
@@ -211,17 +235,29 @@ class _PedidoPageState extends State<PedidoPage> {
             ),
           ),
 
-
-
           // Botón finalizar pedido
-          SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: ElevatedButton(
-              onPressed: () {
-                // Agrega aquí la lógica para finalizar el pedido
-              },
-              child: Text('Finalizar pedido'),
+          Container(
+            margin: EdgeInsets.only(bottom: 20, top: 20),
+            child: SizedBox(
+              width: double.infinity,
+              height: 60,
+              child: ElevatedButton(
+                onPressed: () {
+                  // Agrega aquí la lógica para finalizar el pedido
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  textStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                ),
+                child: Text('FINALIZAR PEDIDO'),
+              ),
             ),
           ),
 
