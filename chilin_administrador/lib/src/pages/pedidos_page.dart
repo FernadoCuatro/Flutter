@@ -34,8 +34,8 @@ class PedidosPage extends StatelessWidget {
   }
 
   Widget _crearListado() {
-    return FutureBuilder<QuerySnapshot>(
-      future: FirebaseFirestore.instance.collection('Usuarios').get(),
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('Usuarios').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -46,6 +46,7 @@ class PedidosPage extends StatelessWidget {
         if (snapshot.hasData) {
           final usuarios = snapshot.data!.docs;
 
+          // Obtenemos la lista de pedidos a partir de los usuarios
           return FutureBuilder<List<PedidoModel>>(
             future: _obtenerPedidosDeUsuarios(usuarios),
             builder: (BuildContext context, AsyncSnapshot<List<PedidoModel>> pedidosSnapshot) {
@@ -55,14 +56,18 @@ class PedidosPage extends StatelessWidget {
               if (pedidosSnapshot.hasError) {
                 return Center(child: Text('Error: ${pedidosSnapshot.error}'));
               }
-              if (pedidosSnapshot.hasData && pedidosSnapshot.data!.isNotEmpty) {
+              if (pedidosSnapshot.hasData) {
                 final pedidos = pedidosSnapshot.data!;
-                return ListView.builder(
-                  itemCount: pedidos.length,
-                  itemBuilder: (context, i) => _crearItem(context, pedidos[i]),
-                );
+                if (pedidos.isNotEmpty) {
+                  return ListView.builder(
+                    itemCount: pedidos.length,
+                    itemBuilder: (context, i) => _crearItem(context, pedidos[i]),
+                  );
+                } else {
+                  return Center(child: Text('No hay pedidos disponibles.'));
+                }
               } else {
-                return Center(child: Text('No hay pedidos disponibles.'));
+                return Center(child: CircularProgressIndicator());
               }
             },
           );

@@ -246,8 +246,11 @@ class _PedidoPageState extends State<PedidoPage> {
                   // Vamos a validar la finalizacion de los pedidos 
                   await FirebaseFirestore.instance.collection('Usuarios').doc(pedidoData.idCliente).collection('Ordenes').doc(pedidoData.idOrden).update({'estado': 'OrderStatus.finished'});
 
+
+                  mostrarSnackbar( 'Pedido de ${pedidoData.nombre}, finalizado con exito' );
+
                   // Volvemos a la pantalla anterior
-                  Navigator.pop(context); 
+                  Navigator.pushNamed(context, 'pedidos');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
@@ -269,4 +272,15 @@ class _PedidoPageState extends State<PedidoPage> {
       ),
     );
   }
+
+  // Para mostrar el mensaje cuando se guarda
+  void mostrarSnackbar ( String mensaje ){
+    final snackbar = SnackBar(
+      content: Text( mensaje ),
+      duration: Duration(milliseconds:  1500),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar( snackbar );
+  }
 }
+
