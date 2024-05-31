@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, prefer_null_aware_operators
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, prefer_null_aware_operators, avoid_print
 
 import 'package:flutter/material.dart';
 // import 'package:chilin_administrador/src/bloc/login_bloc.dart';
@@ -62,9 +62,13 @@ class LoginPage extends StatelessWidget {
           padding: EdgeInsets.only( top: 60 ),
           child: Column(
             children: [
-              Icon( Icons.store_outlined, color: Colors.white, size: 100 ),
-              SizedBox( height: 10, width: double.infinity, ),
-              Text('PUPUSERIA CHILIN', style: TextStyle( color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold ) ),
+              Center(
+                child: Image.asset(
+                  'assets/logo_chilin.png', // Ruta de la imagen en la carpeta de assets
+                  width: 400,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ],
           ),
         ),
@@ -205,11 +209,13 @@ class LoginPage extends StatelessWidget {
   // no los del input si no los valores ya validados
   _login( bloc , context) {
     // necesitamos imprimir cual es el valor del email y el password
-    // print('Email:  ${ bloc.email }');
-    // print('Password: ${ bloc.password } ');
+    print('Email:  ${ bloc.email }');
+    print('Password: ${ bloc.password } ');
 
-    // Navegamos a la otra pagina
-    // Navigator.pushNamed( context, 'home'); // Con esto nos va a poner el boton de back, tenemos que usar:
-    Navigator.pushReplacementNamed( context, 'home');
+    if(bloc.email == "nanci@gmail.com" && bloc.password == "123456" ) {
+      // Navegamos a la otra pagina
+      // Navigator.pushNamed( context, 'home'); // Con esto nos va a poner el boton de back, tenemos que usar:
+      Navigator.pushReplacementNamed( context, 'home');
+    }
   }
 }

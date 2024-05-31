@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         title: 'Material App',
         debugShowCheckedModeBanner: false,
 
-        initialRoute: 'home',
+        initialRoute: 'login',
         routes: {
           'login'   : ( (context) => LoginPage() ),
           'home'    : ( (context) => HomePage() ),

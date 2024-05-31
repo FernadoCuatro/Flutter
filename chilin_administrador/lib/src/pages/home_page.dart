@@ -18,17 +18,21 @@ class HomePage extends StatelessWidget {
     // final bloc = Provider.of( context );
 
     return Scaffold(
-      appBar:AppBar(
-        leading: Icon(Icons.home_rounded), 
-        title: Text('Hola, Fernando'),
+      appBar: AppBar( 
+        title: Text('Hola, Nancy',),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 20.0),
+            padding: EdgeInsets.only(right: 0.0),
             child: Image.asset(
               'assets/chilin.png',
               width: 130.0,
               fit: BoxFit.cover,
             ),
+          ),
+          IconButton(
+            onPressed: () => Navigator.pushNamed(context, 'login'),
+            icon: Icon(Icons.exit_to_app_rounded),
+            style: IconButton.styleFrom(backgroundColor: Colors.black, foregroundColor: Colors.white),
           ),
         ],
       ),
@@ -91,11 +95,11 @@ class HomePage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 16.0),
-              child: Icon(Icons.delete, color: Colors.white, size: 25), // Icono a la izquierda
+              child: Icon(Icons.delete, color: Colors.white, size: 25),
             ),
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
-              child: Icon(Icons.delete, color: Colors.white, size: 25), // Icono a la derecha
+              child: Icon(Icons.delete, color: Colors.white, size: 25),
             ),
           ],
         ),
@@ -155,7 +159,7 @@ class HomePage extends StatelessWidget {
                             // Widget para la categoría con un icono y texto
                             Row(
                               children: [
-                                Icon(Icons.category_rounded, size: 18.0, color: Colors.lightBlue), 
+                                Icon(Icons.restaurant_menu, size: 18.0, color: Colors.lightBlue), 
                                 SizedBox(width: 3),
                                 Text(
                                   producto.nombreCategoria,
@@ -267,10 +271,11 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             FloatingActionButton(
-              onPressed: () => Navigator.pushNamed(context, 'pedidos'),
-              child: Icon(Icons.assignment_returned_rounded),
+              // Enviamos el argumento de pendientes para el filtro
+              onPressed: () => Navigator.pushNamed(context, 'pedidos', arguments: 'pending'),
+              child: Icon(Icons.assignment_returned_outlined),
               // Cambiamos el color a la aplicacion
-              backgroundColor: Colors.red,
+              backgroundColor: Colors.black,
               foregroundColor: Colors.white,
               heroTag: "Pedidos",
             ),

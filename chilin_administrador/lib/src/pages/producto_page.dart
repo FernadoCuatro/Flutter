@@ -259,6 +259,7 @@ class _ProductoPageState extends State<ProductoPage> {
           child: SwitchListTile(
             value: producto.estado == "Disponible", // Convertir a true si es "Disponible", false si no lo es
             title: Text('Disponible'),
+            activeColor: Colors.green,
             onChanged: (value) => setState(() {
               // Actualizar el estado según el valor del Switch
               producto.estado = value ? "Disponible" : "No Disponible";
@@ -270,6 +271,7 @@ class _ProductoPageState extends State<ProductoPage> {
           child: SwitchListTile(
             value: producto.isFeatured,
             title: Text('Destacado'),
+            activeColor: Colors.green,
             onChanged: (value) => setState(() {
               producto.isFeatured = value;
             }),

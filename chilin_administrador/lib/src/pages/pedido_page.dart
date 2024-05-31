@@ -145,11 +145,16 @@ class _PedidoPageState extends State<PedidoPage> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Column(
                         children: [
-                          Text('Fecha de orden: '),
-                          Text('${pedido.fechaOrden}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0)),   
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Fecha de orden: '),
+                              Text('${pedido.fechaOrden}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.0)),
+                            ],
+                          ),
+                          Text('Método de Pago: ${pedido.metodoPago}', style: TextStyle(fontWeight: FontWeight.bold),),
                         ],
                       ),
                       SizedBox(height: 5),
@@ -195,31 +200,56 @@ class _PedidoPageState extends State<PedidoPage> {
 
                       Padding(
                         padding: const EdgeInsets.only(right: 10, left: 10),
-                        child: Row(
+                        child: Column(
                           children: [
-                            Text('Método de Pago: ${pedido.metodoPago}'),
-                            Spacer(),
-                            RichText(
-                              text: TextSpan(
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 17
-                                ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: 'Monto Total: ',
-                                  ),
-                                  TextSpan(
-                                    text: '\$${pedido.montoTotal.toStringAsFixed(2)}',
+                            Row(
+                              children: [
+                                RichText(
+                                  text: TextSpan(
                                     style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 17
                                     ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: 'Cargo a cliente por uso aplicación: ',
+                                      ),
+                                      TextSpan(
+                                        text: '\$0.50 + ',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            )
+                                ),
+
+                                Spacer(),
+                                RichText(
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 17
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: 'Monto Total: ',
+                                      ),
+                                      TextSpan(
+                                        text: '\$${pedido.montoTotal.toStringAsFixed(2)}',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ],
                         ),
                       )
@@ -236,38 +266,41 @@ class _PedidoPageState extends State<PedidoPage> {
           ),
 
           // Botón finalizar pedido
+          pedidoData.estado == 'OrderStatus.pending' ?
+            Container(
+              margin: EdgeInsets.only(bottom: 20, top: 20),
+              child: SizedBox(
+                width: double.infinity,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    // Vamos a validar la finalización de los pedidos 
+                    await FirebaseFirestore.instance.collection('Usuarios').doc(pedidoData.idCliente).collection('Ordenes').doc(pedidoData.idOrden).update({'estado': 'OrderStatus.finished'});
+
+                    mostrarSnackbar( 'Pedido de ${pedidoData.nombre}, finalizado con éxito' );
+                    
+                    // Volvemos a la pantalla anterior
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                  ),
+                  child: Text('FINALIZAR PEDIDO'),
+                ),
+              ),
+            )
+          :
           Container(
             margin: EdgeInsets.only(bottom: 20, top: 20),
-            child: SizedBox(
-              width: double.infinity,
-              height: 60,
-              child: ElevatedButton(
-                onPressed: () async {
-                  // Vamos a validar la finalizacion de los pedidos 
-                  await FirebaseFirestore.instance.collection('Usuarios').doc(pedidoData.idCliente).collection('Ordenes').doc(pedidoData.idOrden).update({'estado': 'OrderStatus.finished'});
-
-
-                  mostrarSnackbar( 'Pedido de ${pedidoData.nombre}, finalizado con exito' );
-
-                  // Volvemos a la pantalla anterior
-                  Navigator.pushNamed(context, 'pedidos');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                  textStyle: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(0),
-                  ),
-                ),
-                child: Text('FINALIZAR PEDIDO'),
-              ),
-            ),
           ),
-
         ],
       ),
     );
