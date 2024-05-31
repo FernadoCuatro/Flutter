@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations, use_build_context_synchronously
 
 import 'package:chilin_administrador/src/models/pedido_detalle_model.dart';
 import 'package:chilin_administrador/src/models/pedido_model.dart';
@@ -242,8 +242,12 @@ class _PedidoPageState extends State<PedidoPage> {
               width: double.infinity,
               height: 60,
               child: ElevatedButton(
-                onPressed: () {
-                  // Agrega aquí la lógica para finalizar el pedido
+                onPressed: () async {
+                  // Vamos a validar la finalizacion de los pedidos 
+                  await FirebaseFirestore.instance.collection('Usuarios').doc(pedidoData.idCliente).collection('Ordenes').doc(pedidoData.idOrden).update({'estado': 'OrderStatus.finished'});
+
+                  // Volvemos a la pantalla anterior
+                  Navigator.pop(context); 
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
